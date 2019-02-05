@@ -12,13 +12,13 @@ pygame.display.set_caption('Octo Demo')
 octoImg = pygame.image.load('assets/octopic.png')
 squidImg = pygame.image.load('assets/squid.png')
 shellImg = pygame.image.load('assets/shell.png')
-sharkImg = pygame.image.load('assets/shark.png')
+# sharkImg = pygame.image.load('assets/shark.png')
 
 # transform assets
 octo = pygame.transform.scale(octoImg, (60, 60))
 squid = pygame.transform.scale(squidImg, (40, 60) )
 shell = pygame.transform.scale(shellImg, (30, 30))
-shark = pygame.transform.scale(sharkImg, (60,30))
+# shark = pygame.transform.scale(sharkImg, (60,30))
 
 blue = (0, 153, 255)
 clock = pygame.time.Clock()
@@ -37,43 +37,41 @@ class projectile(object):
       self.y = y
       self.radius = radius
       self.color = color
-      # self.facing = facing # this will determine direction of projectile 1 or -1
       self.vel = 8
 
   def draw(self, win):
       pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
 
-# class enemy(object):
-#     def __init__(self, x, y, width, height, end):
-#         self.x = x
-#         self.y = y
-#         self.width = width
-#         self.height = height
-#         self.end = end
-#         self.path = [self.x, self.end]
-#         self.vel = 5
-#         self.counter = 0
+class enemy(object):
+    swimLeft = [pygame.image.load('assets/SL1.png'), pygame.image.load('assets/SL2.png'), pygame.image.load('assets/SL3.png'), pygame.image.load('assets/SL4.png')]
+
+    def __init__(self, x, y, width, height, end):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.end = end
+        self.path = [self.x, self.end] #start and end of enemy path
+        self.vel = 3
+        self.swimCount = 0
     
-#     def draw(self, win):
-#       self.move() # determine what the animation will do
- 
-#     def move(self):
-#       if self.vel > 0: #moving right
-#           if self.x + self.vel < self.path[1]:
-#               self.x += self.vel
-#           else: #if we are past this coordinate, change direction
-#               self.vel = self.vel * -1
-#       else: 
-#           if self.x - self.vel > self.path[0]:
-#               self.x += self.vel
-#           else: 
-#             self.vel = self.vel * -1
+    def draw(self, win):
+      self.move() 
+      if self.swimCount + 1 >= 10:
+          self.swimCount = 0
+
+      if self.vel > 0: 
+          win.blit(self.swimLeft[self.swimCount //3], (self.x, self.y))
+
+    def move(self):
+        # if self.x - self.vel < self.path[1]: # move left
+            self.x -= self.vel # decrementing the count moves obj left, increment will move to right
 
 def redrawGameWindow(x, y, width, height):
     win.fill((blue))
     win.blit(octo, (x, y, width, height))
     win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
-
+    _shark.draw(win)
     for bullet in bullets:
         bullet.draw(win)
     # win.blit(shell, ((screenWidth/2), (screenHeight/2 -60), width, height))
@@ -83,7 +81,7 @@ def redrawGameWindow(x, y, width, height):
 ## main loop, check for collision, events 
 octopus = player(0, (screenHeight/2 - 60), 60, 60)
 bullets = []  # container for our bullet
-# _shark = enemy(100, 410, 64, 64, 450)
+_shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
 run = True
 
 ## mainloop
@@ -104,7 +102,7 @@ while run:
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_SPACE]:
-        if len(bullets) < 5:
+        if len(bullets) < 20:
             bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
 
     if keys[pygame.K_LEFT] and octopus.x > octopus.vel:
