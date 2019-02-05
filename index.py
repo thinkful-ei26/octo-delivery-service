@@ -14,15 +14,22 @@ red = (255, 0, 0)
 x = 0
 y = 400
 y = 200
-width = 40
-height = 40
+width = 10
+height = 10
 vel = 25
 
+# load assets
 octoImg = pygame.image.load('assets/octopic.png')
+squidImg = pygame.image.load('assets/squid.png')
+
+# transform assets
+octo = pygame.transform.scale(octoImg, (40,40))
+squid = pygame.transform.scale(squidImg, (40, 60) )
 
 def redrawGameWindow(x, y, width, height):
     win.fill((blue))
     win.blit(octoImg, (x, y, width, height))
+    win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
     pygame.display.update() 
 
 ## main loop, check for collision, events 
