@@ -27,18 +27,18 @@ class player(object):
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 5
+        self.vel = 25
 
 
 def redrawGameWindow(x, y, width, height):
     win.fill((blue))
-    win.blit(octo, (0, (screenHeight/2 - octopus.height), width, height))
+    win.blit(octo, (x, y, width, height))
     win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
     win.blit(shell, ((screenWidth/2), (screenHeight/2 -60), width, height))
     pygame.display.update() 
 
 ## main loop, check for collision, events 
-octopus = player(300, 200, 60, 60)
+octopus = player(0, (screenHeight/2 - 60), 60, 60)
 run = True
 while run:
     clock.tick(27)
