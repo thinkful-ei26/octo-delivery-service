@@ -32,18 +32,31 @@ class player(object):
         self.vel = 25
 
 class enemy(object):
+
     def __init__(self, x, y, width, height, end):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
+        self.end = end
+        self.path = [self.x, self.end]
         self.vel = 5
+        self.counter = 0
     
-    def draw(self, win):
-        pass
-
+    # def draw(self, win):
+    #   self.move() # determine what the animation will do
+ 
     def move(self):
-      pass
+      if self.vel > 0: #moving right
+          if self.x + self.vel < self.path[1]:
+              self.x += self.vel
+          else: #if we are past this coordinate, change direction
+              self.vel = self.vel * -1
+      else: 
+          if self.x - self.vel > self.path[0]:
+              self.x += self.vel
+          else: 
+            self.vel = self.vel * -1
 
 def redrawGameWindow(x, y, width, height):
     win.fill((blue))
@@ -55,8 +68,7 @@ def redrawGameWindow(x, y, width, height):
 
 ## main loop, check for collision, events 
 octopus = player(0, (screenHeight/2 - 60), 60, 60)
-
-print('screenHeight/2 - 60: ',screenHeight/2 - 60)
+_shark = enemy(100, 410, 64, 64, 450)
 run = True
 while run:
     clock.tick(27)
