@@ -57,15 +57,11 @@ class enemy(object):
     
     def draw(self, win):
       self.move() 
-      if self.swimCount + 1 >= 10:
-          self.swimCount = 0
-
       if self.vel > 0: 
           win.blit(self.swimLeft[self.swimCount //3], (self.x, self.y))
 
     def move(self):
-        # if self.x - self.vel < self.path[1]: # move left
-            self.x -= self.vel # decrementing the count moves obj left, increment will move to right
+        self.x -= self.vel # decrementing the count moves obj left, increment will move to right
 
 def redrawGameWindow(x, y, width, height):
     win.fill((blue))
