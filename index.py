@@ -1,11 +1,13 @@
 import pygame
 
+# Set up pygame
 pygame.init()
 
+# Set up the window
 screenWidth = 800
 screenHeight = 600
 
-win = pygame.display.set_mode((800, 600))
+windowSurface = pygame.display.set_mode((screenWidth, screenHeight))
 pygame.display.set_caption('Octo Demo')
 
 # load assets
@@ -21,6 +23,7 @@ shell = pygame.transform.scale(shellImg, (30, 30))
 blue = (0, 153, 255)
 red = (255, 0, 0)
 black = (0,0,0)
+green = (0, 255, 0)
 clock = pygame.time.Clock()
 score = 0
 
@@ -35,13 +38,13 @@ class player(object):
         self.hitbox = (self.x + 40, self.y, 40, 40) # square tuple
         
     
-    def draw (self, win):
+    def draw (self, windowSurface):
         octoImg = pygame.image.load('assets/octopic.png')
         octo = pygame.transform.scale(octoImg, (60, 60))
-        win.blit(octo, (self.x, self.y)) #load octo img
+        windowSurface.blit(octo, (self.x, self.y)) #load octo img
         ## MOVING HITBOX  
         self.hitbox = (self.x, self.y, 60, 60)
-        pygame.draw.rect(win, red, self.hitbox, 2)
+        pygame.draw.rect(windowSurface, red, self.hitbox, 2)
 
 
 ## ============== PROJECTILE ==============
@@ -54,11 +57,11 @@ class projectile(object):
       self.vel = 8
       self.hitbox = (self.x-8, self.y-5, 15, 15)
 
-  def draw(self, win):
-      pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
+  def draw(self, windowSurface):
+      pygame.draw.circle(windowSurface, self.color, (self.x, self.y), self.radius)
       ## MOVING HITBOX   
       self.hitbox = (self.x-8, self.y-5, 15, 15)
-      pygame.draw.rect(win, red, self.hitbox, 2)
+      pygame.draw.rect(windowSurface, red, self.hitbox, 2)
 
 ## ============== ENEMY ==============
 class enemy(object): 
@@ -82,32 +85,45 @@ class enemy(object):
         self.vel = 3
         self.swimCount = 0
         self.hitbox = (self.x, self.y, 100, 40 )
+        self.health = 10
+        self.visible = True # need this to delete enemy
     
-    def draw(self, win):
+    def draw(self, windowSurface):
       self.move() 
-      if self.vel > 0: 
-          win.blit(self.swimLeft[self.swimCount //3], (self.x, self.y))
-       
-      ## MOVING HITBOX     
-      self.hitbox = (self.x, self.y, 100, 40 )
-      pygame.draw.rect(win, red, self.hitbox, 2)
+      if self.visible:
+          if self.vel > 0: 
+              windowSurface.blit(self.swimLeft[self.swimCount //3], (self.x, self.y))
+
+          # if self.x 
+      
+          ## HEALTBAR
+          pygame.draw.rect(windowSurface, red, (self.hitbox[0], self.hitbox[1] - 20, 50, 10))
+          pygame.draw.rect(windowSurface, green, (self.hitbox[0], self.hitbox[1] - 20, 50 - (5 * (10 - self.health)), 10))
+
+          ## MOVING HITBOX     
+          self.hitbox = (self.x, self.y, 100, 40 )
+          pygame.draw.rect(windowSurface, red, self.hitbox, 2)
 
     def move(self):
         self.x -= self.vel # decrementing the count moves obj left, increment will move to right
     
-    def hit(self):
+    def hit(self): #if enemy is hit, set visible to False
+      if self.health > 0: 
+          self.health -= 1
+      else: 
+        self.visible = False
         print('hit')
 
 
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow(x, y, width, height):
-    win.fill((blue))
+    windowSurface.fill((blue))
     text = font.render('Score: ' + str(score), 1, black)
-    win.blit(text, (590, 0))
-    octopus.draw(win)
-    shark.draw(win)
+    windowSurface.blit(text, (590, 0))
+    octopus.draw(windowSurface)
+    shark.draw(windowSurface)
     for bullet in bullets:
-        bullet.draw(win)
+        bullet.draw(windowSurface)
     #win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
     # win.blit(shell, ((screenWidth/2), (screenHeight/2 -60), width, height))
     pygame.display.update() 
