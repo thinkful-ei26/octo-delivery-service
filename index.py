@@ -21,6 +21,7 @@ shell = pygame.transform.scale(shellImg, (30, 30))
 # shark = pygame.transform.scale(sharkImg, (60,30))
 
 blue = (0, 153, 255)
+red = (255, 0, 0)
 clock = pygame.time.Clock()
 
 class player(object):
@@ -30,6 +31,7 @@ class player(object):
         self.width = width
         self.height = height
         self.vel = 8
+        self.hitbox = (self.x + 20, self.y, 28, 60) # square tuple
 
 class projectile(object):
   def __init__(self, x, y, radius, color):
@@ -41,6 +43,10 @@ class projectile(object):
 
   def draw(self, win):
       pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
+      self.hitbox = (self.x + 20, self.y, 28, 60)
+      pygame.draw.rect(win, red, self.hitbox, 2)
+
+      # pygame.draw.rect(win, red, (self.x, self.y, self.width, self.height), 2)
 
 class enemy(object):
     swimLeft = [pygame.image.load('assets/SL1.png'), pygame.image.load('assets/SL2.png'), pygame.image.load('assets/SL3.png'), pygame.image.load('assets/SL4.png')]
@@ -54,11 +60,14 @@ class enemy(object):
         self.path = [self.x, self.end] #start and end of enemy path
         self.vel = 3
         self.swimCount = 0
+        self.hitbox = (self.x + 20, self.y, 28, 60 )
     
     def draw(self, win):
       self.move() 
       if self.vel > 0: 
           win.blit(self.swimLeft[self.swimCount //3], (self.x, self.y))
+      self.hitbox = (self.x + 20, self.y, 28, 60 )
+      pygame.draw.rect(win, red, self.hitbox, 2)
 
     def move(self):
         self.x -= self.vel # decrementing the count moves obj left, increment will move to right
