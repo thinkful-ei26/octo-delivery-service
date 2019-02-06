@@ -133,8 +133,9 @@ while True:
     ## Check whether the player has intersected with any package squares.
     for package in packages[:]:
         if package.colliderect(octopus.hitbox):
-            # package.pop(packages.index(package))
-            print('collided with package: ', package) # ex: <rect(577, 244, 20, 20)>
+            # package.pop(packages.index(package))  ## need to change rect to a sprite 
+            print('collided with package: ', package) # ex: <rect(577, 244, 20, 20)> 
+            # https://www.reddit.com/r/pygame/comments/1vhk2o/colliding_sprites_error_pygamerect_object_has_no/
 
     ## ============== INTERNAL GAME CONTROLS ==============
     keys = pygame.key.get_pressed()
