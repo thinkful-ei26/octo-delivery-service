@@ -89,15 +89,25 @@ def enemyCollision(enemyObj, scoreObj):
                 scoreObj += 1
                 bullets.pop(bullets.index(bullet))
 
+def playerCollision(player, enemy, score):
+    if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
+        if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
+            player.hit(windowSurface)
+            score -= 5
+
 ## ============== MAIN LOOP ==============
 while True:  
 # Check for events:
     clock.tick(27) # game clock
 
-    if octopus.hitbox[1] < shark.hitbox[1] + shark.hitbox[3] and octopus.hitbox[1] + octopus.hitbox[3] > shark.hitbox[1]:
-        if octopus.hitbox[0] + octopus.hitbox[2] > shark.hitbox[0] and octopus.hitbox[0] < shark.hitbox[0] + shark.hitbox[2]:
-            octopus.hit(windowSurface)
-            score -= 5
+    ## ============== OCTOPUS & SHARK COLLISION ==============
+    # if octopus.hitbox[1] < shark.hitbox[1] + shark.hitbox[3] and octopus.hitbox[1] + octopus.hitbox[3] > shark.hitbox[1]:
+    #     if octopus.hitbox[0] + octopus.hitbox[2] > shark.hitbox[0] and octopus.hitbox[0] < shark.hitbox[0] + shark.hitbox[2]:
+    #         octopus.hit(windowSurface)
+    #         score -= 5
+    playerCollision(octopus, shark, score)
+    playerCollision(octopus, shark2, score)
+    playerCollision(octopus, shark3, score)
 
     # shoots bullets one at a time by delaying
     if inkLoop > 0:
