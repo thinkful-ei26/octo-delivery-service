@@ -57,7 +57,6 @@ def redrawGameWindow():
     ## draw packages in range of 8
     for i in range(8):
         pygame.draw.rect(windowSurface, brown, packages[i])
-        print('i in redrawGameWindow', i)
         
     pygame.display.update() 
 
@@ -146,6 +145,8 @@ while True:
 
     redrawGameWindow()
 
+print(score)
+    
 pygame.quit()
 
 # detect collision:
