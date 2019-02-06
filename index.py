@@ -3,6 +3,7 @@ from pygame.locals import *
 from objects.player import player
 from objects.enemy import enemy
 from objects.projectile import projectile
+from objects.package import Package
 
 # Set up pygame
 pygame.init()
@@ -30,15 +31,13 @@ brown = (222,184,135)
 
 # Set up internal game controls
 clock = pygame.time.Clock()
-score = 0
 
-# Set up packages
-packageCounter = 40
-NEWPACKAGE = 0
-PACKAGESIZE = 20
-packages = []
-for i in range(8):
-    packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
+# bulletSound = pygame.mixer.Sound('bullet.wav')
+# hitSound = pygame.mixer.Sound('hit.wav')
+# music = pygame.mixer.music.load('music.mp3')
+# pygame.mixer.music.play(-1)
+
+score = 0
 
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
@@ -52,12 +51,16 @@ def redrawGameWindow():
   
     ## draw bullets
     for bullet in bullets:
+        #print('bullet: ',bullet)
+        # hitSound.play()
         bullet.draw(windowSurface)
 
     ## draw packages in range of 8
-    for i in range(8):
+    for package in packages:
         pygame.draw.rect(windowSurface, brown, packages[i])
+        #packages.draw(windowSurface, package, packages)
         
+
     pygame.display.update() 
 
 ## ============== DEFINE GAME OBJECTS ==============
@@ -68,6 +71,15 @@ shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
 shark2 = enemy(screenWidth-200, (screenHeight/3 - 60), 60, 40, 800)
 shark3 = enemy(screenWidth-300, (screenHeight/5 - 60), 60, 40, 800)
 inkLoop = 0
+
+# Set up packages
+packageCounter = 40
+NEWPACKAGE = 0
+PACKAGESIZE = 20
+packages = []
+
+for i in range(8):
+      packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
 
 def enemyCollision(enemyObj, scoreObj):
     if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
@@ -81,6 +93,11 @@ def enemyCollision(enemyObj, scoreObj):
 while True:  
 # Check for events:
     clock.tick(27) # game clock
+
+    if octopus.hitbox[1] < shark.hitbox[1] + shark.hitbox[3] and octopus.hitbox[1] + octopus.hitbox[3] > shark.hitbox[1]:
+        if octopus.hitbox[0] + octopus.hitbox[2] > shark.hitbox[0] and octopus.hitbox[0] < shark.hitbox[0] + shark.hitbox[2]:
+            octopus.hit(windowSurface)
+            score -= 5
 
     # shoots bullets one at a time by delaying
     if inkLoop > 0:
@@ -107,9 +124,21 @@ while True:
             bullets.pop(bullets.index(bullet)) # pop off the bullet or delete them 
 
     ## ============== PACKAGE COLLISION LOGIC ==============
+
+    # for i in range(8):
+    #   packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
     # for package in packages[:]:
     #     if player.colliderect(package):
     #         packages.remove(package)
+
+    if event.type == MOUSEBUTTONUP:
+        packages.append(pygame.Rect(event.pos[0], event.pos[1], PACKAGESIZE, PACKAGESIZE))
+
+    packageCounter += 1
+    if packageCounter >= NEWPACKAGE:
+         ## Add new package:
+         packageCounter = 0
+         packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
 
     keys = pygame.key.get_pressed()
 
@@ -119,6 +148,7 @@ while True:
 
     ## add more bullets to octopus
     if keys[pygame.K_SPACE] and inkLoop == 0:
+        # bulletSound.play()
         if len(bullets) < 30:
             bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
         
@@ -134,19 +164,8 @@ while True:
     if keys[pygame.K_DOWN] and octopus.y < screenWidth - octopus.width:
         octopus.y += octopus.vel
     
-    if event.type == MOUSEBUTTONUP:
-        packages.append(pygame.Rect(event.pos[0], event.pos[1], PACKAGESIZE, PACKAGESIZE))
-
-    packageCounter += 1
-    if packageCounter >= NEWPACKAGE:
-         ## Add new package:
-         packageCounter = 0
-         packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
-
     redrawGameWindow()
 
-print(score)
-    
 pygame.quit()
 
 # detect collision:

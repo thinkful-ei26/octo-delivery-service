@@ -13,7 +13,7 @@ class player(object):
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 8
+        self.vel = 10
         self.hitbox = (self.x + 40, self.y, 40, 40) # square tuple
         self.health = 10
         self.visible = True # if false, then game over feedback
@@ -33,9 +33,13 @@ class player(object):
             self.hitbox = (self.x, self.y, 60, 60)
             pygame.draw.rect(windowSurface, red, self.hitbox, 2)
     
-    def hit(self): 
+    def hit(self, windowSurface): 
         if self.health > 0: 
             self.health -= 1
         else: #if octo's hp 0, disappears
             self.visible = False
-            print('game over')
+            font1 = pygame.font.SysFont('helvetica', 100)
+            text = font1.render('GAME OVER', 1, (255,0,0))
+            windowSurface.blit(text, (250 - (text.get_width()/2),200))
+            pygame.display.update()
+            
