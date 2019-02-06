@@ -25,13 +25,34 @@
 #           bullets.pop(bullets.index(bullet))
 
 
-if octopus.hitbox[1] < shark.hitbox[1] + shark.hitbox[3] and octopus.hitbox[1] + octopus.hitbox[3] > shark.hitbox[1]:
-    if octopus.hitbox[0] + octopus.hitbox[2] > shark.hitbox[0] and octopus.hitbox[0] < shark.hitbox[0] + shark.hitbox[2]:
-        octopus.hit(windowSurface)
-        score -= 5
+# if octopus.hitbox[1] < shark.hitbox[1] + shark.hitbox[3] and octopus.hitbox[1] + octopus.hitbox[3] > shark.hitbox[1]:
+#     if octopus.hitbox[0] + octopus.hitbox[2] > shark.hitbox[0] and octopus.hitbox[0] < shark.hitbox[0] + shark.hitbox[2]:
+#         octopus.hit(windowSurface)
+#         score -= 5
 
-def playerCollision(player, enemy, score):
-    if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
-        if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
-            player.hit(windowSurface)
-            score -= 5
+# def playerCollision(player, enemy, score):
+#     if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
+#         if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
+#             player.hit(windowSurface)
+#             score -= 5
+
+
+# for i in range(8):
+#       packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
+
+        ## ============== PACKAGE COLLISION LOGIC ==============
+
+    # for i in range(8):
+    #   packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
+    # for package in packages[:]:
+    #     if player.colliderect(package):
+    #         packages.remove(package)
+
+    # if event.type == MOUSEBUTTONUP:
+    #     packages.append(pygame.Rect(event.pos[0], event.pos[1], PACKAGESIZE, PACKAGESIZE))
+
+    # packageCounter += 1
+    # if packageCounter >= NEWPACKAGE:
+    #      ## Add new package:
+    #      packageCounter = 0
+    #      packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))

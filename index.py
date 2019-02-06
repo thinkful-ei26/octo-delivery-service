@@ -38,6 +38,7 @@ music = pygame.mixer.music.load('music.mp3')
 pygame.mixer.music.play(-1)
 
 score = 0
+packageCount = 0
 
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
@@ -55,9 +56,11 @@ def redrawGameWindow():
         # hitSound.play()
         bullet.draw(windowSurface)
 
-    ## draw packages in range of 8
+    # ## draw packages in range of 8
     for package in packages:
-        pygame.draw.rect(windowSurface, brown, packages[i])
+        print('package: ',package)
+        package.draw(windowSurface)
+        #pygame.draw.rect(windowSurface, brown, packages[i])
         #packages.draw(windowSurface, package, packages)
         
 
@@ -67,19 +70,20 @@ def redrawGameWindow():
 font = pygame.font.SysFont('helvetica', 30, True)
 octopus = player(0, (screenHeight/2 - 60), 60, 60)
 bullets = []  # container for our bullet
+packages = []
 shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
 shark2 = enemy(screenWidth-200, (screenHeight/3 - 60), 60, 40, 800)
 shark3 = enemy(screenWidth-300, (screenHeight/5 - 60), 60, 40, 800)
 inkLoop = 0
 
 # Set up packages
-packageCounter = 40
-NEWPACKAGE = 0
-PACKAGESIZE = 20
-packages = []
+# packageCounter = 40
+# NEWPACKAGE = 0
+# PACKAGESIZE = 20
+# packages = []
 
-for i in range(8):
-      packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
+# for i in range(8):
+#       packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
 
 def enemyCollision(enemyObj, score):
     if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
@@ -124,29 +128,18 @@ while True:
         enemyCollision(shark, score)
         enemyCollision(shark2, score)  
         enemyCollision(shark3, score)    
-
         if bullet.x < 800 and bullet.x > 0:
             bullet.x += bullet.vel # bullet is going to move vel direction
         else: 
             bullets.pop(bullets.index(bullet)) # pop off the bullet or delete them 
 
     ## ============== PACKAGE COLLISION LOGIC ==============
-
-    # for i in range(8):
-    #   packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
-    # for package in packages[:]:
-    #     if player.colliderect(package):
-    #         packages.remove(package)
-
     if event.type == MOUSEBUTTONUP:
-        packages.append(pygame.Rect(event.pos[0], event.pos[1], PACKAGESIZE, PACKAGESIZE))
+        packages.append(pygame.Rect(10, 200, 20, 20))
 
-    packageCounter += 1
-    if packageCounter >= NEWPACKAGE:
-         ## Add new package:
-         packageCounter = 0
-         packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
 
+
+    ## ============== INTERNAL GAME CONTROLS ==============
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_ESCAPE]:
@@ -181,7 +174,7 @@ pygame.quit()
 [] octo & package collision logic
 [] add package score when octo collides
 [] next scene => octo & squid => end game 
-[DONE] render octo & octo moving
+[DONE] render octo & octo moving()
 [DONE] octo has projectiles
 [DONE] add enemy shark: has health bar, is moving correct direction
 [DONE] add packages: 1. create package class, 2. render 

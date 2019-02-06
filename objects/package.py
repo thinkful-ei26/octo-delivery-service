@@ -14,8 +14,8 @@ class Package(object):
         ## could have velocity to make it interesting
         self.hitbox = (self.x, self.y, 40, 40)
     
-    def draw(self, windowSurface, i, list):
-      pygame.draw.rect(windowSurface, self.color, list[i])
+    def draw(self, windowSurface):
+      pygame.draw.rect(windowSurface, self.color, (self.x, self.y))
       ## MOVING HITBOX   
-      self.hitbox = (self.x-8, self.y-5, 15, 15)
+      self.hitbox = (self.x, self.y, 40, 40)
       pygame.draw.rect(windowSurface, red, self.hitbox, 2)
