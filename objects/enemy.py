@@ -50,7 +50,7 @@ class enemy(object):
 
           ## MOVING HITBOX     
           self.hitbox = (self.x, self.y, 100, 40 )
-          pygame.draw.rect(windowSurface, red, self.hitbox, 2)
+          #pygame.draw.rect(windowSurface, red, self.hitbox, 2)
 
     def move(self):
         self.x -= self.vel # decrementing the count moves obj left, increment will move to right

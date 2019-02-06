@@ -86,15 +86,15 @@ for i in range(8):
     packages.append(pygame.Rect(random.randint(0, screenWidth - packageSize), random.randint(0, screenHeight - packageSize), packageSize, packageSize))
 
 def enemyCollision(enemyObj, score):
-    if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
-        if bullet.x + bullet.radius > enemyObj.hitbox[0] and bullet.x - bullet.radius < enemyObj.hitbox[0] + enemyObj.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
-            enemyObj.hit()
-            if enemyObj.visible == True:
-                score += 1
-                bullets.pop(bullets.index(bullet))
+      if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
+          if bullet.x + bullet.radius > enemyObj.hitbox[0] and bullet.x - bullet.radius < enemyObj.hitbox[0] + enemyObj.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
+              enemyObj.hit()
+              if enemyObj.visible == True:
+                  score += 1
+                  bullets.pop(bullets.index(bullet))
 
 def playerCollision(player, enemy, score):
-    if enemy.visible == True:
+    if enemy.visible == True: # octopus no longer sustains damage if enemy is not visible
         if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
             if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
                 player.hit(windowSurface)
@@ -179,7 +179,9 @@ pygame.quit()
 [] score bug
 [] octo & package collision logic
 [] add package score when octo collides
-[] next scene => octo & squid => end game 
+[] next scene => octo & squid => end game
+[] octo still shooting when not visible 
+[] restart btn
 [DONE] render octo & octo moving()
 [DONE] octo has projectiles
 [DONE] add enemy shark: has health bar, is moving correct direction
