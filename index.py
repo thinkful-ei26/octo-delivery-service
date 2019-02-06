@@ -178,8 +178,9 @@ while True:
         if bullet.y - bullet.radius < shark.hitbox[1] + shark.hitbox[3] and bullet.y + bullet.radius > shark.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
             if bullet.x + bullet.radius > shark.hitbox[0] and bullet.x - bullet.radius < shark.hitbox[0] + shark.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
                 shark.hit()
-                score += 1
-                bullets.pop(bullets.index(bullet))
+                if shark.visible == True:
+                  score += 1
+                  bullets.pop(bullets.index(bullet))
 
         if bullet.x < 800 and bullet.x > 0:
             bullet.x += bullet.vel # bullet is going to move vel direction
@@ -199,7 +200,7 @@ while True:
 
     ## add more bullets to octopus
     if keys[pygame.K_SPACE] and inkLoop == 0:
-        if len(bullets) < 5:
+        if len(bullets) < 30:
             bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
         
         inkLoop = 1
