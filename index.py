@@ -90,10 +90,11 @@ def enemyCollision(enemyObj, score):
                 bullets.pop(bullets.index(bullet))
 
 def playerCollision(player, enemy, score):
-    if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
-        if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
-            player.hit(windowSurface)
-            score -= 5
+    if enemy.visible == True:
+        if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
+            if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
+                player.hit(windowSurface)
+                score -= 5
 
 ## ============== MAIN LOOP ==============
 while True:  
@@ -176,6 +177,7 @@ pygame.quit()
 
 # detect collision:
 '''
+[] score bug
 [] octo & package collision logic
 [] add package score when octo collides
 [] next scene => octo & squid => end game 
