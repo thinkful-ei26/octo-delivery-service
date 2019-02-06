@@ -12,13 +12,11 @@ pygame.display.set_caption('Octo Demo')
 # octoImg = pygame.image.load('assets/octopic.png')
 squidImg = pygame.image.load('assets/squid.png')
 shellImg = pygame.image.load('assets/shell.png')
-# sharkImg = pygame.image.load('assets/shark.png')
 
 # transform assets
 # octo = pygame.transform.scale(octoImg, (60, 60))
 squid = pygame.transform.scale(squidImg, (40, 60) )
 shell = pygame.transform.scale(shellImg, (30, 30))
-# shark = pygame.transform.scale(sharkImg, (60,30))
 
 blue = (0, 153, 255)
 red = (255, 0, 0)
@@ -38,7 +36,8 @@ class player(object):
     def draw (self, win):
         octoImg = pygame.image.load('assets/octopic.png')
         octo = pygame.transform.scale(octoImg, (60, 60))
-        win.blit(octo, (self.x, self.y))
+        win.blit(octo, (self.x, self.y)) #load octo img
+        ## MOVING HITBOX  
         self.hitbox = (self.x, self.y, 60, 60)
         pygame.draw.rect(win, red, self.hitbox, 2)
 
@@ -51,19 +50,26 @@ class projectile(object):
       self.radius = radius
       self.color = color
       self.vel = 8
-      self.hitbox = (self.x + 40, self.y, 40, 40)
+      self.hitbox = (self.x-8, self.y-5, 15, 15)
 
   def draw(self, win):
       pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
-      # HITBOX  
-      self.hitbox = (self.x + 40, self.y, 40, 40)
+      ## MOVING HITBOX   
+      self.hitbox = (self.x-8, self.y-5, 15, 15)
       pygame.draw.rect(win, red, self.hitbox, 2)
-
 
 ## ============== ENEMY ==============
 class enemy(object): 
-    swimLeft = [pygame.image.load('assets/SL1.png'), pygame.image.load('assets/SL2.png'), pygame.image.load('assets/SL3.png'), pygame.image.load('assets/SL4.png')]
-
+    _SL1 = pygame.image.load('assets/SL1.png')
+    SL1 = pygame.transform.scale(_SL1, (100,40))
+    _SL2 = pygame.image.load('assets/SL2.png')
+    SL2 = pygame.transform.scale(_SL2, (100,40))
+    _SL3 = pygame.image.load('assets/SL3.png')
+    SL3 = pygame.transform.scale(_SL3, (100,40))
+    _SL4 = pygame.image.load('assets/SL4.png')
+    SL4 = pygame.transform.scale(_SL4, (100,40))
+    swimLeft = [SL1, SL2, SL3, SL4]
+   
     def __init__(self, x, y, width, height, end):
         self.x = x
         self.y = y
@@ -73,32 +79,34 @@ class enemy(object):
         self.path = [self.x, self.end] #start and end of enemy path
         self.vel = 3
         self.swimCount = 0
-        self.hitbox = (self.x + 20, self.y, 28, 60 )
+        self.hitbox = (self.x, self.y, 100, 40 )
     
     def draw(self, win):
       self.move() 
       if self.vel > 0: 
           win.blit(self.swimLeft[self.swimCount //3], (self.x, self.y))
-      # HITBOX    
-      self.hitbox = (self.x + 20, self.y, 28, 60 )
+       
+      ## MOVING HITBOX     
+      self.hitbox = (self.x, self.y, 100, 40 )
       pygame.draw.rect(win, red, self.hitbox, 2)
 
     def move(self):
         self.x -= self.vel # decrementing the count moves obj left, increment will move to right
 
+## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow(x, y, width, height):
     win.fill((blue))
     octopus.draw(win)
-    win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
-    # win.blit(octo, (x, y, width, height))
     _shark.draw(win)
     for bullet in bullets:
         bullet.draw(win)
+    #win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
+    # win.blit(octo, (x, y, width, height))
     # win.blit(shell, ((screenWidth/2), (screenHeight/2 -60), width, height))
     # win.blit(shark, ((screenWidth/2 - 40), (screenHeight/2 -60 - 40), width, height))
     pygame.display.update() 
 
-## ============== GAME OBJECTS ==============
+## ============== DEFINE GAME OBJECTS ==============
 octopus = player(0, (screenHeight/2 - 60), 60, 60)
 bullets = []  # container for our bullet
 _shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
