@@ -92,12 +92,17 @@ class enemy(object):
 
     def move(self):
         self.x -= self.vel # decrementing the count moves obj left, increment will move to right
+    
+    def hit(self):
+        print('hit')
+        pass
+
 
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow(x, y, width, height):
     win.fill((blue))
     octopus.draw(win)
-    _shark.draw(win)
+    shark.draw(win)
     for bullet in bullets:
         bullet.draw(win)
     #win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
@@ -109,7 +114,7 @@ def redrawGameWindow(x, y, width, height):
 ## ============== DEFINE GAME OBJECTS ==============
 octopus = player(0, (screenHeight/2 - 60), 60, 60)
 bullets = []  # container for our bullet
-_shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
+shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
 run = True
 
 ## ============== MAIN LOOP ==============
@@ -122,6 +127,11 @@ while run:
             run = False
 
     for bullet in bullets: 
+        if bullet.y - bullet.radius < shark.hitbox[1] + shark.hitbox[3] and bullet.y + bullet.radius > shark.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, y coord
+            if bullet.x + bullet.radius > shark.hitbox[0] and bullet.x - bullet.radius < shark.hitbox[0] + shark.hitbox[2]: # left & right x coord of shark box
+                shark.hit()
+                bullet.pop(bullets.index(bullet))
+
         if bullet.x < 800 and bullet.x > 0:
             bullet.x += bullet.vel # bullet is going to move vel direction
         else: 
