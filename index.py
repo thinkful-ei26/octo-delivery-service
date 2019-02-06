@@ -55,6 +55,8 @@ def redrawGameWindow():
     shark.draw(windowSurface)
     shark2.draw(windowSurface)
     shark3.draw(windowSurface)
+    shark4.draw(windowSurface)
+    shark5.draw(windowSurface)
   
     ## draw bullets
     for bullet in bullets:
@@ -76,6 +78,8 @@ packages = []
 shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
 shark2 = enemy(screenWidth-200, (screenHeight/3 - 60), 60, 40, 800)
 shark3 = enemy(screenWidth-300, (screenHeight/5 - 60), 60, 40, 800)
+shark4 = enemy(screenWidth-200, (400 - 60), 60, 40, 800)
+shark5 = enemy(screenWidth-300, (500 - 60), 60, 40, 800)
 inkLoop = 0
 
 for i in range(8):
@@ -105,6 +109,8 @@ while True:
     playerCollision(octopus, shark, score)
     playerCollision(octopus, shark2, score)
     playerCollision(octopus, shark3, score)
+    playerCollision(octopus, shark4, score)
+    playerCollision(octopus, shark5, score)
 
     # shoots bullets one at a time by delaying
     if inkLoop > 0:
@@ -123,7 +129,9 @@ while True:
         ## BULLET & SHARK COLLISION
         enemyCollision(shark, score)
         enemyCollision(shark2, score)  
-        enemyCollision(shark3, score)    
+        enemyCollision(shark3, score) 
+        enemyCollision(shark4, score)  
+        enemyCollision(shark5, score)       
         if bullet.x < 800 and bullet.x > 0:
             bullet.x += bullet.vel # bullet is going to move vel direction
         else: 
