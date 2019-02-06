@@ -32,10 +32,10 @@ brown = (222,184,135)
 # Set up internal game controls
 clock = pygame.time.Clock()
 
-# bulletSound = pygame.mixer.Sound('bullet.wav')
-# hitSound = pygame.mixer.Sound('hit.wav')
-# music = pygame.mixer.music.load('music.mp3')
-# pygame.mixer.music.play(-1)
+#bulletSound = pygame.mixer.Sound('bullet.wav')
+#hitSound = pygame.mixer.Sound('hit.wav')
+music = pygame.mixer.music.load('music.mp3')
+pygame.mixer.music.play(-1)
 
 score = 0
 
@@ -81,12 +81,12 @@ packages = []
 for i in range(8):
       packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
 
-def enemyCollision(enemyObj, scoreObj):
+def enemyCollision(enemyObj, score):
     if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
         if bullet.x + bullet.radius > enemyObj.hitbox[0] and bullet.x - bullet.radius < enemyObj.hitbox[0] + enemyObj.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
             enemyObj.hit()
             if enemyObj.visible == True:
-                scoreObj += 1
+                score += 1
                 bullets.pop(bullets.index(bullet))
 
 def playerCollision(player, enemy, score):
@@ -101,10 +101,6 @@ while True:
     clock.tick(27) # game clock
 
     ## ============== OCTOPUS & SHARK COLLISION ==============
-    # if octopus.hitbox[1] < shark.hitbox[1] + shark.hitbox[3] and octopus.hitbox[1] + octopus.hitbox[3] > shark.hitbox[1]:
-    #     if octopus.hitbox[0] + octopus.hitbox[2] > shark.hitbox[0] and octopus.hitbox[0] < shark.hitbox[0] + shark.hitbox[2]:
-    #         octopus.hit(windowSurface)
-    #         score -= 5
     playerCollision(octopus, shark, score)
     playerCollision(octopus, shark2, score)
     playerCollision(octopus, shark3, score)
@@ -158,7 +154,7 @@ while True:
 
     ## add more bullets to octopus
     if keys[pygame.K_SPACE] and inkLoop == 0:
-        # bulletSound.play()
+        #bulletSound.play()
         if len(bullets) < 30:
             bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
         
@@ -182,7 +178,6 @@ pygame.quit()
 '''
 [] octo & package collision logic
 [] add package score when octo collides
-[] octo health render, decrease when touching shark
 [] next scene => octo & squid => end game 
 [DONE] render octo & octo moving
 [DONE] octo has projectiles
@@ -190,4 +185,6 @@ pygame.quit()
 [DONE] add packages: 1. create package class, 2. render 
 [DONE] fix bug on shark collision
 [DONE] add more sharks
+[DONE] background music
+[DONE] octo health render, decrease when touching shark
 '''
