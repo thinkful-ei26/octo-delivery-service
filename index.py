@@ -30,11 +30,11 @@ clock = pygame.time.Clock()
 score = 0
 
 # Set up packages
-packageCounter = 0
-NEWPACKAGE = 40
+packageCounter = 40
+NEWPACKAGE = 0
 PACKAGESIZE = 20
 packages = []
-for i in range(20):
+for i in range(2):
     packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE),
            random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
 
@@ -142,9 +142,11 @@ def redrawGameWindow():
     for bullet in bullets:
         bullet.draw(windowSurface)
 
-    ## draw packages
-    for i in range(len(packages)):
+    ## draw packages in range of 2
+    for i in range(2):
         pygame.draw.rect(windowSurface, brown, packages[i])
+        print('i in redrawGameWindow', i)
+        
 
     pygame.display.update() 
 
@@ -205,6 +207,7 @@ while True:
         
         inkLoop = 1
 
+    ## octopus movement
     if keys[pygame.K_LEFT] and octopus.x > octopus.vel:
         octopus.x -= octopus.vel
     if keys[pygame.K_RIGHT] and octopus.x < screenWidth - octopus.width:
