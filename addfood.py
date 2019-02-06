@@ -35,7 +35,6 @@ moveDown = False
 
 MOVESPEED = 6
 
-
 # Run the game loop.
 while True:
     # Check for events.
