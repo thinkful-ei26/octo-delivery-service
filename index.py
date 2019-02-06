@@ -40,6 +40,14 @@ pygame.mixer.music.play(-1)
 score = 0
 packageCount = 0
 
+# Set up the player and food data structures.
+foodCounter = 0
+NEWFOOD = 40
+FOODSIZE = 20
+foods = []
+for i in range(20):
+    foods.append(pygame.Rect(random.randint(0, screenWidth - FOODSIZE), random.randint(0, screenHeight - FOODSIZE), FOODSIZE, FOODSIZE))
+
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
     windowSurface.fill((blue))
@@ -57,11 +65,15 @@ def redrawGameWindow():
         bullet.draw(windowSurface)
 
     # ## draw packages in range of 8
-    for package in packages:
-        print('package: ',package)
-        package.draw(windowSurface)
-        #pygame.draw.rect(windowSurface, brown, packages[i])
-        #packages.draw(windowSurface, package, packages)
+    # for package in packages:
+    #     print('package: ',package)
+    #     # package.draw(windowSurface)
+    #     pygame.draw.rect(windowSurface, brown, packages[i])
+    #     # packages.draw(windowSurface, package, packages)
+
+    # Draw the food.
+    for i in range(len(foods)):
+        pygame.draw.rect(windowSurface, brown, foods[i])
         
 
     pygame.display.update() 
@@ -76,14 +88,14 @@ shark2 = enemy(screenWidth-200, (screenHeight/3 - 60), 60, 40, 800)
 shark3 = enemy(screenWidth-300, (screenHeight/5 - 60), 60, 40, 800)
 inkLoop = 0
 
-# Set up packages
-# packageCounter = 40
-# NEWPACKAGE = 0
-# PACKAGESIZE = 20
-# packages = []
+## Set up packages
+packageCounter = 40
+NEWPACKAGE = 0
+PACKAGESIZE = 20
+packages = []
 
-# for i in range(8):
-#       packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
+for i in range(8):
+      packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
 
 def enemyCollision(enemyObj, score):
     if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
@@ -135,9 +147,13 @@ while True:
 
     ## ============== PACKAGE COLLISION LOGIC ==============
     if event.type == MOUSEBUTTONUP:
-        packages.append(pygame.Rect(10, 200, 20, 20))
+        foods.append(pygame.Rect(event.pos[0], event.pos[1], FOODSIZE, FOODSIZE))
 
-
+    foodCounter += 1
+    if foodCounter >= NEWFOOD:
+         # Add new food.
+        foodCounter = 0
+        foods.append(pygame.Rect(random.randint(0, screenWidth - FOODSIZE), random.randint(0, screenHeight - FOODSIZE), FOODSIZE, FOODSIZE))
 
     ## ============== INTERNAL GAME CONTROLS ==============
     keys = pygame.key.get_pressed()
@@ -164,6 +180,15 @@ while True:
     if keys[pygame.K_DOWN] and octopus.y < screenWidth - octopus.width:
         octopus.y += octopus.vel
     
+    #  # Check whether the player has intersected with any food squares.
+    # for food in foods[:]:
+    #     if octopus.colliderect(food):
+    #         foods.remove(food)
+
+    #  # Draw the food.
+    # for i in range(len(foods)):
+    #     pygame.draw.rect(windowSurface, brown, foods[i])
+
     redrawGameWindow()
 
 pygame.quit()
