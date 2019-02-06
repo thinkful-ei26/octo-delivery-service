@@ -9,13 +9,13 @@ win = pygame.display.set_mode((800, 600))
 pygame.display.set_caption('Octo Demo')
 
 # load assets
-octoImg = pygame.image.load('assets/octopic.png')
+# octoImg = pygame.image.load('assets/octopic.png')
 squidImg = pygame.image.load('assets/squid.png')
 shellImg = pygame.image.load('assets/shell.png')
 # sharkImg = pygame.image.load('assets/shark.png')
 
 # transform assets
-octo = pygame.transform.scale(octoImg, (60, 60))
+# octo = pygame.transform.scale(octoImg, (60, 60))
 squid = pygame.transform.scale(squidImg, (40, 60) )
 shell = pygame.transform.scale(shellImg, (30, 30))
 # shark = pygame.transform.scale(sharkImg, (60,30))
@@ -32,12 +32,14 @@ class player(object):
         self.width = width
         self.height = height
         self.vel = 8
-        self.hitbox = (self.x + 100, self.y, 100, 100) # square tuple
+        self.hitbox = (self.x + 40, self.y, 40, 40) # square tuple
         
     
     def draw (self, win):
-        win.blit(octoImg, (self.x, self.y))
-        self.hitbox = (self.x + 100, self.y, 100, 100)
+        octoImg = pygame.image.load('assets/octopic.png')
+        octo = pygame.transform.scale(octoImg, (60, 60))
+        win.blit(octo, (self.x, self.y))
+        self.hitbox = (self.x, self.y, 60, 60)
         pygame.draw.rect(win, red, self.hitbox, 2)
 
 
