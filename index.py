@@ -40,8 +40,6 @@ pygame.mixer.music.play(-1)
 score = 0
 packageCount = 0
 
-# Set up the player and food data structures.
-
 ## Set up packages
 packageSize = 20
 packages = []
@@ -133,10 +131,10 @@ while True:
 
     ## ============== PACKAGE COLLISION LOGIC ==============
     ## Check whether the player has intersected with any package squares.
-    # for package in packages[:]:
-    #     if octopus.colliderect(package):
-    #         foods.remove(package)
-
+    for package in packages[:]:
+        if package.colliderect(octopus.hitbox):
+            # package.pop(packages.index(package))
+            print('collided with package: ', package) # ex: <rect(577, 244, 20, 20)>
 
     ## ============== INTERNAL GAME CONTROLS ==============
     keys = pygame.key.get_pressed()
