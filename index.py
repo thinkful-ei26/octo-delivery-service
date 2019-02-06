@@ -1,4 +1,5 @@
-import pygame
+import pygame, sys, random
+from pygame.locals import *
 
 # Set up pygame
 pygame.init()
@@ -8,7 +9,7 @@ screenWidth = 800
 screenHeight = 600
 
 windowSurface = pygame.display.set_mode((screenWidth, screenHeight))
-pygame.display.set_caption('Octo Demo')
+pygame.display.set_caption('OctoGun: Delivery Service')
 
 # load assets
 # octoImg = pygame.image.load('assets/octopic.png')
@@ -20,12 +21,25 @@ shellImg = pygame.image.load('assets/shell.png')
 squid = pygame.transform.scale(squidImg, (40, 60) )
 shell = pygame.transform.scale(shellImg, (30, 30))
 
+# Set up colors
 blue = (0, 153, 255)
 red = (255, 0, 0)
 black = (0,0,0)
 green = (0, 255, 0)
+brown = (222,184,135)
+
+# Set up internal game controls
 clock = pygame.time.Clock()
 score = 0
+
+# Set up packages
+packageCounter = 0
+NEWPACKAGE = 40
+PACKAGESIZE = 20
+packages = []
+for i in range(20):
+    packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE),
+           random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
 
 ## ============== PLAYER ==============
 class player(object):
@@ -45,7 +59,6 @@ class player(object):
         ## MOVING HITBOX  
         self.hitbox = (self.x, self.y, 60, 60)
         pygame.draw.rect(windowSurface, red, self.hitbox, 2)
-
 
 ## ============== PROJECTILE ==============
 class projectile(object):
@@ -94,8 +107,10 @@ class enemy(object):
           if self.vel > 0: 
               windowSurface.blit(self.swimLeft[self.swimCount //3], (self.x, self.y))
 
-          # if self.x 
-      
+          ## enemy loop: if enemy reaches left side of screen (x=0) bring them back to screenWidth (x=800)
+          if self.x <= 0:
+              self.x = screenWidth 
+
           ## HEALTBAR
           pygame.draw.rect(windowSurface, red, (self.hitbox[0], self.hitbox[1] - 20, 50, 10))
           pygame.draw.rect(windowSurface, green, (self.hitbox[0], self.hitbox[1] - 20, 50 - (5 * (10 - self.health)), 10))
@@ -112,18 +127,25 @@ class enemy(object):
           self.health -= 1
       else: 
         self.visible = False
-        print('hit')
+        # print('hit')
 
 
 ## ============== REDRAW GAME WINDOW ============== 
-def redrawGameWindow(x, y, width, height):
+def redrawGameWindow():
     windowSurface.fill((blue))
     text = font.render('Score: ' + str(score), 1, black)
     windowSurface.blit(text, (590, 0))
     octopus.draw(windowSurface)
     shark.draw(windowSurface)
+
+    ## draw bullets
     for bullet in bullets:
         bullet.draw(windowSurface)
+
+    ## draw packages
+    # for i in range(len(packages)):
+    #     pygame.draw.rect(windowSurface, brown, packages[i])
+
     #win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
     # win.blit(shell, ((screenWidth/2), (screenHeight/2 -60), width, height))
     pygame.display.update() 
@@ -134,22 +156,22 @@ octopus = player(0, (screenHeight/2 - 60), 60, 60)
 bullets = []  # container for our bullet
 shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
 inkLoop = 0
-run = True
 
 ## ============== MAIN LOOP ==============
-while run:
-    clock.tick(27)
-    # pygame.time.delay(100) # game clock
+while True:
+    # Check for events:
+    clock.tick(27) # game clock
 
-    # fix bullet error
+    # shoots bullets one at a time by delaying
     if inkLoop > 0:
         inkLoop += 1
     if inkLoop > 3:
         inkLoop = 0
 
-    for event in pygame.event.get(): # event handling game
-        if event.type == pygame.QUIT:
-            run = False
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
 
     for bullet in bullets: 
         if bullet.y - bullet.radius < shark.hitbox[1] + shark.hitbox[3] and bullet.y + bullet.radius > shark.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, y coord
@@ -163,8 +185,18 @@ while run:
         else: 
             bullets.pop(bullets.index(bullet)) # pop off the bullet or delete them 
 
+    ## Set up collision logic for packages
+    # for package in packages[:]:
+    #     if player.colliderect(package):
+    #         packages.remove(package)
+
     keys = pygame.key.get_pressed()
 
+    if keys[pygame.K_ESCAPE]:
+        pygame.quit()
+        sys.exit()
+
+    ## add more bullets to octopus
     if keys[pygame.K_SPACE] and inkLoop == 0:
         if len(bullets) < 20:
             bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
@@ -178,15 +210,30 @@ while run:
         octopus.y -= octopus.vel
     if keys[pygame.K_DOWN] and octopus.y < screenWidth - octopus.width:
         octopus.y += octopus.vel
+    
+    if event.type == MOUSEBUTTONUP:
+        packages.append(pygame.Rect(event.pos[0], event.pos[1], PACKAGESIZE, PACKAGESIZE))
 
-    redrawGameWindow(octopus.x, octopus.y, octopus.width, octopus.height)
+    packageCounter += 1
+    if packageCounter >= NEWPACKAGE:
+         ## Add new package:
+         packageCounter = 0
+         packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
+
+    redrawGameWindow()
 
 pygame.quit()
 
 # detect collision:
 '''
-1. octo & squid => end game 
-2. octo & shell => change octo sprite & delete shell
-3. octo have projectile
-4. add enemy shark
+[] fix bug on shark collision
+[] octo health render, decrease when touching shark
+[] octo & package collision logic
+[] add package score when octo colliges
+[] octo & squid => end game 
+[DONE] render octo & octo moving
+[DONE] octo has projectiles
+[DONE] add enemy shark: has health bar, is moving correct direction
+[DONE] add packages: 1. create package class, 2. render 
+
 '''
