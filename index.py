@@ -106,6 +106,7 @@ class enemy(object):
 
           ## enemy loop: if enemy reaches left side of screen (x=0) bring them back to screenWidth (x=800)
           if self.x <= 0:
+              self.health = 10
               self.x = screenWidth 
 
           ## HEALTBAR
@@ -142,8 +143,8 @@ def redrawGameWindow():
         bullet.draw(windowSurface)
 
     ## draw packages
-    # for i in range(len(packages)):
-    #     pygame.draw.rect(windowSurface, brown, packages[i])
+    for i in range(len(packages)):
+        pygame.draw.rect(windowSurface, brown, packages[i])
 
     pygame.display.update() 
 
