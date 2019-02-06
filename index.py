@@ -20,7 +20,9 @@ shell = pygame.transform.scale(shellImg, (30, 30))
 
 blue = (0, 153, 255)
 red = (255, 0, 0)
+black = (0,0,0)
 clock = pygame.time.Clock()
+score = 0
 
 ## ============== PLAYER ==============
 class player(object):
@@ -95,32 +97,39 @@ class enemy(object):
     
     def hit(self):
         print('hit')
-        pass
 
 
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow(x, y, width, height):
     win.fill((blue))
+    text = font.render('Score: ' + str(score), 1, black)
+    win.blit(text, (590, 0))
     octopus.draw(win)
     shark.draw(win)
     for bullet in bullets:
         bullet.draw(win)
     #win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
-    # win.blit(octo, (x, y, width, height))
     # win.blit(shell, ((screenWidth/2), (screenHeight/2 -60), width, height))
-    # win.blit(shark, ((screenWidth/2 - 40), (screenHeight/2 -60 - 40), width, height))
     pygame.display.update() 
 
 ## ============== DEFINE GAME OBJECTS ==============
+font = pygame.font.SysFont('helvetica', 30, True)
 octopus = player(0, (screenHeight/2 - 60), 60, 60)
 bullets = []  # container for our bullet
 shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
+inkLoop = 0
 run = True
 
 ## ============== MAIN LOOP ==============
 while run:
     clock.tick(27)
     # pygame.time.delay(100) # game clock
+
+    # fix bullet error
+    if inkLoop > 0:
+        inkLoop += 1
+    if inkLoop > 3:
+        inkLoop = 0
 
     for event in pygame.event.get(): # event handling game
         if event.type == pygame.QUIT:
@@ -130,6 +139,7 @@ while run:
         if bullet.y - bullet.radius < shark.hitbox[1] + shark.hitbox[3] and bullet.y + bullet.radius > shark.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, y coord
             if bullet.x + bullet.radius > shark.hitbox[0] and bullet.x - bullet.radius < shark.hitbox[0] + shark.hitbox[2]: # left & right x coord of shark box
                 shark.hit()
+                score += 1
                 bullet.pop(bullets.index(bullet))
 
         if bullet.x < 800 and bullet.x > 0:
@@ -139,9 +149,10 @@ while run:
 
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_SPACE]:
+    if keys[pygame.K_SPACE] and inkLoop == 0:
         if len(bullets) < 20:
             bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
+            inkLoop = 1
 
     if keys[pygame.K_LEFT] and octopus.x > octopus.vel:
         octopus.x -= octopus.vel
