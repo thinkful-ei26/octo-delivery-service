@@ -24,6 +24,7 @@ blue = (0, 153, 255)
 red = (255, 0, 0)
 clock = pygame.time.Clock()
 
+## ============== PLAYER ==============
 class player(object):
     def __init__(self, x, y, width, height):
         self.x = x
@@ -31,8 +32,16 @@ class player(object):
         self.width = width
         self.height = height
         self.vel = 8
-        self.hitbox = (self.x + 20, self.y, 28, 60) # square tuple
+        self.hitbox = (self.x + 100, self.y, 100, 100) # square tuple
+        
+    
+    def draw (self, win):
+        win.blit(octoImg, (self.x, self.y))
+        self.hitbox = (self.x + 100, self.y, 100, 100)
+        pygame.draw.rect(win, red, self.hitbox, 2)
 
+
+## ============== PROJECTILE ==============
 class projectile(object):
   def __init__(self, x, y, radius, color):
       self.x = x
@@ -40,15 +49,17 @@ class projectile(object):
       self.radius = radius
       self.color = color
       self.vel = 8
+      self.hitbox = (self.x + 40, self.y, 40, 40)
 
   def draw(self, win):
       pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
-      self.hitbox = (self.x + 20, self.y, 28, 60)
+      # HITBOX  
+      self.hitbox = (self.x + 40, self.y, 40, 40)
       pygame.draw.rect(win, red, self.hitbox, 2)
 
-      # pygame.draw.rect(win, red, (self.x, self.y, self.width, self.height), 2)
 
-class enemy(object):
+## ============== ENEMY ==============
+class enemy(object): 
     swimLeft = [pygame.image.load('assets/SL1.png'), pygame.image.load('assets/SL2.png'), pygame.image.load('assets/SL3.png'), pygame.image.load('assets/SL4.png')]
 
     def __init__(self, x, y, width, height, end):
@@ -66,6 +77,7 @@ class enemy(object):
       self.move() 
       if self.vel > 0: 
           win.blit(self.swimLeft[self.swimCount //3], (self.x, self.y))
+      # HITBOX    
       self.hitbox = (self.x + 20, self.y, 28, 60 )
       pygame.draw.rect(win, red, self.hitbox, 2)
 
@@ -74,8 +86,9 @@ class enemy(object):
 
 def redrawGameWindow(x, y, width, height):
     win.fill((blue))
-    win.blit(octo, (x, y, width, height))
+    octopus.draw(win)
     win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
+    # win.blit(octo, (x, y, width, height))
     _shark.draw(win)
     for bullet in bullets:
         bullet.draw(win)
@@ -83,13 +96,13 @@ def redrawGameWindow(x, y, width, height):
     # win.blit(shark, ((screenWidth/2 - 40), (screenHeight/2 -60 - 40), width, height))
     pygame.display.update() 
 
-## main loop, check for collision, events 
+## ============== GAME OBJECTS ==============
 octopus = player(0, (screenHeight/2 - 60), 60, 60)
 bullets = []  # container for our bullet
 _shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
 run = True
 
-## mainloop
+## ============== MAIN LOOP ==============
 while run:
     clock.tick(27)
     # pygame.time.delay(100) # game clock
