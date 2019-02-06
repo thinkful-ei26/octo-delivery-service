@@ -1,5 +1,6 @@
 import pygame, sys, random
 from pygame.locals import *
+from objects.player import player
 
 # Set up pygame
 pygame.init()
@@ -38,23 +39,7 @@ for i in range(2):
     packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE),
            random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
 
-## ============== PLAYER ==============
-class player(object):
-    def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.vel = 8
-        self.hitbox = (self.x + 40, self.y, 40, 40) # square tuple
-        
-    def draw (self, windowSurface):
-        octoImg = pygame.image.load('assets/octopic.png')
-        octo = pygame.transform.scale(octoImg, (60, 60))
-        windowSurface.blit(octo, (self.x, self.y)) #load octo img
-        ## MOVING HITBOX  
-        self.hitbox = (self.x, self.y, 60, 60)
-        pygame.draw.rect(windowSurface, red, self.hitbox, 2)
+
 
 ## ============== PROJECTILE ==============
 class projectile(object):
@@ -161,7 +146,6 @@ def enemyCollision(enemyObj, scoreObj):
     if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
         if bullet.x + bullet.radius > enemyObj.hitbox[0] and bullet.x - bullet.radius < enemyObj.hitbox[0] + enemyObj.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
             enemyObj.hit()
-            # shark2.hit()
             if enemyObj.visible == True:
                 scoreObj += 1
                 bullets.pop(bullets.index(bullet))
@@ -185,15 +169,7 @@ while True:
     ## ============== BULLET COLLISION LOGIC ==============
     for bullet in bullets: 
 
-        # ## BULLET & SHARK COLLISION
-        # if bullet.y - bullet.radius < shark.hitbox[1] + shark.hitbox[3] and bullet.y + bullet.radius > shark.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
-        #     if bullet.x + bullet.radius > shark.hitbox[0] and bullet.x - bullet.radius < shark.hitbox[0] + shark.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
-        #         shark.hit()
-        #         # shark2.hit()
-        #         if shark.visible == True:
-        #           score += 1
-        #           bullets.pop(bullets.index(bullet))
-
+        ## BULLET & SHARK COLLISION
         enemyCollision(shark, score)
         enemyCollision(shark2, score)  
         enemyCollision(shark3, score)    
