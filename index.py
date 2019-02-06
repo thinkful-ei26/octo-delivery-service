@@ -1,6 +1,8 @@
 import pygame, sys, random
 from pygame.locals import *
 from objects.player import player
+from objects.enemy import enemy
+from objects.projectile import projectile
 
 # Set up pygame
 pygame.init()
@@ -35,82 +37,8 @@ packageCounter = 40
 NEWPACKAGE = 0
 PACKAGESIZE = 20
 packages = []
-for i in range(2):
-    packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE),
-           random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
-
-
-
-## ============== PROJECTILE ==============
-class projectile(object):
-  def __init__(self, x, y, radius, color):
-      self.x = x
-      self.y = y
-      self.radius = radius
-      self.color = color
-      self.vel = 8
-      self.hitbox = (self.x-8, self.y-5, 15, 15)
-
-  def draw(self, windowSurface):
-      pygame.draw.circle(windowSurface, self.color, (self.x, self.y), self.radius)
-      ## MOVING HITBOX   
-      self.hitbox = (self.x-8, self.y-5, 15, 15)
-      pygame.draw.rect(windowSurface, red, self.hitbox, 2)
-
-## ============== ENEMY ==============
-class enemy(object): 
-    _SL1 = pygame.image.load('assets/SL1.png')
-    SL1 = pygame.transform.scale(_SL1, (100,40))
-    _SL2 = pygame.image.load('assets/SL2.png')
-    SL2 = pygame.transform.scale(_SL2, (100,40))
-    _SL3 = pygame.image.load('assets/SL3.png')
-    SL3 = pygame.transform.scale(_SL3, (100,40))
-    _SL4 = pygame.image.load('assets/SL4.png')
-    SL4 = pygame.transform.scale(_SL4, (100,40))
-    swimLeft = [SL1, SL2, SL3, SL4]
-   
-    def __init__(self, x, y, width, height, end):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.end = end
-        self.path = [self.x, self.end] #start and end of enemy path
-        self.vel = 3
-        self.swimCount = 0
-        self.hitbox = (self.x, self.y, 100, 40 )
-        self.health = 10
-        self.visible = True # need this to delete enemy
-    
-    def draw(self, windowSurface):
-      self.move() 
-      if self.visible:
-          if self.vel > 0: 
-              windowSurface.blit(self.swimLeft[self.swimCount //3], (self.x, self.y))
-
-          ## enemy loop: if enemy reaches left side of screen (x=0) bring them back to screenWidth (x=800)
-          if self.x <= 0:
-              self.health = 10
-              self.x = screenWidth 
-
-          ## HEALTBAR
-          pygame.draw.rect(windowSurface, red, (self.hitbox[0], self.hitbox[1] - 20, 50, 10))
-          pygame.draw.rect(windowSurface, green, (self.hitbox[0], self.hitbox[1] - 20, 50 - (5 * (10 - self.health)), 10))
-
-          ## MOVING HITBOX     
-          self.hitbox = (self.x, self.y, 100, 40 )
-          pygame.draw.rect(windowSurface, red, self.hitbox, 2)
-
-    def move(self):
-        self.x -= self.vel # decrementing the count moves obj left, increment will move to right
-        #print(self.health)
-    
-    def hit(self): #if enemy is hit, set visible to False
-      if self.health > 0: 
-          self.health -= 1
-      else: 
-        self.visible = False
-        # print('hit')
+for i in range(8):
+    packages.append(pygame.Rect(random.randint(0, screenWidth - PACKAGESIZE), random.randint(0, screenHeight - PACKAGESIZE), PACKAGESIZE, PACKAGESIZE))
 
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
@@ -126,8 +54,8 @@ def redrawGameWindow():
     for bullet in bullets:
         bullet.draw(windowSurface)
 
-    ## draw packages in range of 2
-    for i in range(2):
+    ## draw packages in range of 8
+    for i in range(8):
         pygame.draw.rect(windowSurface, brown, packages[i])
         print('i in redrawGameWindow', i)
         
@@ -179,7 +107,7 @@ while True:
         else: 
             bullets.pop(bullets.index(bullet)) # pop off the bullet or delete them 
 
-    ## Set up collision logic for packages
+    ## ============== PACKAGE COLLISION LOGIC ==============
     # for package in packages[:]:
     #     if player.colliderect(package):
     #         packages.remove(package)
@@ -222,14 +150,14 @@ pygame.quit()
 
 # detect collision:
 '''
-[] octo health render, decrease when touching shark
-[] add more sharks
 [] octo & package collision logic
 [] add package score when octo collides
-[] octo & squid => end game 
+[] octo health render, decrease when touching shark
+[] next scene => octo & squid => end game 
 [DONE] render octo & octo moving
 [DONE] octo has projectiles
 [DONE] add enemy shark: has health bar, is moving correct direction
 [DONE] add packages: 1. create package class, 2. render 
 [DONE] fix bug on shark collision
+[DONE] add more sharks
 '''
