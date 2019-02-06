@@ -7,17 +7,14 @@ pygame.init()
 # Set up the window
 screenWidth = 800
 screenHeight = 600
-
 windowSurface = pygame.display.set_mode((screenWidth, screenHeight))
 pygame.display.set_caption('OctoGun: Delivery Service')
 
 # load assets
-# octoImg = pygame.image.load('assets/octopic.png')
 squidImg = pygame.image.load('assets/squid.png')
 shellImg = pygame.image.load('assets/shell.png')
 
 # transform assets
-# octo = pygame.transform.scale(octoImg, (60, 60))
 squid = pygame.transform.scale(squidImg, (40, 60) )
 shell = pygame.transform.scale(shellImg, (30, 30))
 
@@ -121,6 +118,7 @@ class enemy(object):
 
     def move(self):
         self.x -= self.vel # decrementing the count moves obj left, increment will move to right
+        #print(self.health)
     
     def hit(self): #if enemy is hit, set visible to False
       if self.health > 0: 
@@ -129,7 +127,6 @@ class enemy(object):
         self.visible = False
         # print('hit')
 
-
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
     windowSurface.fill((blue))
@@ -137,6 +134,8 @@ def redrawGameWindow():
     windowSurface.blit(text, (590, 0))
     octopus.draw(windowSurface)
     shark.draw(windowSurface)
+    # win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
+    # win.blit(shell, ((screenWidth/2), (screenHeight/2 -60), width, height))
 
     ## draw bullets
     for bullet in bullets:
@@ -146,8 +145,6 @@ def redrawGameWindow():
     # for i in range(len(packages)):
     #     pygame.draw.rect(windowSurface, brown, packages[i])
 
-    #win.blit(squid, (screenWidth-40, (screenHeight/2 -60), width, height))
-    # win.blit(shell, ((screenWidth/2), (screenHeight/2 -60), width, height))
     pygame.display.update() 
 
 ## ============== DEFINE GAME OBJECTS ==============
@@ -158,8 +155,8 @@ shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
 inkLoop = 0
 
 ## ============== MAIN LOOP ==============
-while True:
-    # Check for events:
+while True:  
+# Check for events:
     clock.tick(27) # game clock
 
     # shoots bullets one at a time by delaying
@@ -173,12 +170,15 @@ while True:
             pygame.quit()
             sys.exit()
 
+    ## ============== BULLET COLLISION LOGIC ==============
     for bullet in bullets: 
-        if bullet.y - bullet.radius < shark.hitbox[1] + shark.hitbox[3] and bullet.y + bullet.radius > shark.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, y coord
-            if bullet.x + bullet.radius > shark.hitbox[0] and bullet.x - bullet.radius < shark.hitbox[0] + shark.hitbox[2]: # left & right x coord of shark box
+
+        ## BULLET & SHARK COLLISION
+        if bullet.y - bullet.radius < shark.hitbox[1] + shark.hitbox[3] and bullet.y + bullet.radius > shark.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
+            if bullet.x + bullet.radius > shark.hitbox[0] and bullet.x - bullet.radius < shark.hitbox[0] + shark.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
                 shark.hit()
                 score += 1
-                bullet.pop(bullets.index(bullet))
+                bullets.pop(bullets.index(bullet))
 
         if bullet.x < 800 and bullet.x > 0:
             bullet.x += bullet.vel # bullet is going to move vel direction
@@ -198,9 +198,10 @@ while True:
 
     ## add more bullets to octopus
     if keys[pygame.K_SPACE] and inkLoop == 0:
-        if len(bullets) < 20:
+        if len(bullets) < 5:
             bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
-            inkLoop = 1
+        
+        inkLoop = 1
 
     if keys[pygame.K_LEFT] and octopus.x > octopus.vel:
         octopus.x -= octopus.vel
@@ -226,14 +227,14 @@ pygame.quit()
 
 # detect collision:
 '''
-[] fix bug on shark collision
 [] octo health render, decrease when touching shark
+[] add more sharks
 [] octo & package collision logic
-[] add package score when octo colliges
+[] add package score when octo collides
 [] octo & squid => end game 
 [DONE] render octo & octo moving
 [DONE] octo has projectiles
 [DONE] add enemy shark: has health bar, is moving correct direction
 [DONE] add packages: 1. create package class, 2. render 
-
+[DONE] fix bug on shark collision
 '''
