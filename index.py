@@ -135,6 +135,7 @@ def redrawGameWindow():
     octopus.draw(windowSurface)
     shark.draw(windowSurface)
     shark2.draw(windowSurface)
+    shark3.draw(windowSurface)
   
     ## draw bullets
     for bullet in bullets:
@@ -153,6 +154,7 @@ octopus = player(0, (screenHeight/2 - 60), 60, 60)
 bullets = []  # container for our bullet
 shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
 shark2 = enemy(screenWidth-200, (screenHeight/3 - 60), 60, 40, 800)
+shark3 = enemy(screenWidth-300, (screenHeight/5 - 60), 60, 40, 800)
 inkLoop = 0
 
 def enemyCollision(enemyObj, scoreObj):
@@ -193,7 +195,8 @@ while True:
         #           bullets.pop(bullets.index(bullet))
 
         enemyCollision(shark, score)
-        enemyCollision(shark2, score)      
+        enemyCollision(shark2, score)  
+        enemyCollision(shark3, score)    
 
         if bullet.x < 800 and bullet.x > 0:
             bullet.x += bullet.vel # bullet is going to move vel direction
