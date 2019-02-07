@@ -29,7 +29,7 @@ class Player(object):
             
             ## MOVING HITBOX  
             self.hitbox = (self.x, self.y, 60, 60)
-            pygame.draw.rect(windowSurface, red, self.hitbox, 2)
+            # pygame.draw.rect(windowSurface, red, self.hitbox, 2)
     
     def hit(self, windowSurface): 
         if self.health > 0: 

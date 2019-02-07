@@ -5,7 +5,6 @@ from objects.player import Player
 from objects.enemy import Enemy
 from objects.projectile import Projectile
 from objects.package import Package
-from os import path  # path cmd, help locate other files in the computer
 
 class Game:
     def __init__(self):
