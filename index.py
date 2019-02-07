@@ -38,12 +38,11 @@ music = pygame.mixer.music.load('music.mp3')
 pygame.mixer.music.play(-1)
 
 score = 0
-packageCount = 0
 
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
     windowSurface.fill((blue))
-    text = font.render('Packages: ' + str(packageCount), 1, black)
+    text = font.render('Packages: ' + str(octopus.collectCount), 1, black)
     windowSurface.blit(text, (590, 0))
     octopus.draw(windowSurface)
     shark.draw(windowSurface)
@@ -60,6 +59,10 @@ def redrawGameWindow():
     ## draw packages
     for package in packages:
         package.draw(windowSurface)
+
+    if octopus.collectCount == 8:
+        text2 = font.render('Collected all 8 packages!', 1, green)
+        windowSurface.blit(text2, (screenWidth/2, screenHeight/2))
 
     pygame.display.update() 
 
@@ -135,15 +138,8 @@ while True:
         else: 
             bullets.pop(bullets.index(bullet)) # pop off the bullet or delete them 
 
-    '''
     ## ============== PACKAGE COLLISION LOGIC ==============
     ## Check whether the player has intersected with any package squares.
-    for package in packages[:]:
-        if package.colliderect(octopus.hitbox):
-            # package.pop(packages.index(package))  ## need to change rect to a sprite 
-            print('collided with package: ', package) # ex: <rect(577, 244, 20, 20)> 
-    '''
-
 
     for package in packages: 
     
@@ -152,8 +148,8 @@ while True:
         if package.x < 800 and package.x > 0:
             package.x += package.vel # package is going to move vel direction
         else: 
-            packageCount +=1
-            print(packageCount)
+            # packageCount +=1
+            # print('collectCount: ',octopus.collectCount)
             packages.pop(packages.index(package)) # pop off the package or delete them 
 
     ## ============== INTERNAL GAME CONTROLS ==============

@@ -47,7 +47,7 @@ class player(object):
             pygame.display.update()
     
     def collect(self, windowSurface):
-        if self.collectCount < 0:
+        if self.collectCount < 8:
             self.collectCount += 1
         if self.collectCount == 8: #octo has collected all packages
             self.delivering = True
