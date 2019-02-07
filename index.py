@@ -35,31 +35,31 @@ from settings import *
 # score = 0
 
 ## ============== REDRAW GAME WINDOW ============== 
-def redrawGameWindow():
+# def redrawGameWindow():
     # windowSurface.fill((blue))
     # text = font.render('Packages: ' + str(octopus.collectCount), 1, black)
     # windowSurface.blit(text, (590, 0))
     # octopus.draw(windowSurface)
-    shark.draw(windowSurface)
-    shark2.draw(windowSurface)
-    shark3.draw(windowSurface)
-    shark4.draw(windowSurface)
-    shark5.draw(windowSurface)
+    # shark.draw(windowSurface)
+    # shark2.draw(windowSurface)
+    # shark3.draw(windowSurface)
+    # shark4.draw(windowSurface)
+    # shark5.draw(windowSurface)
   
-    ## draw bullets
-    for bullet in bullets:
-        # hitSound.play()
-        bullet.draw(windowSurface)
+    # ## draw bullets
+    # for bullet in bullets:
+    #     # hitSound.play()
+    #     bullet.draw(windowSurface)
 
-    ## draw packages
-    for package in packages:
-        package.draw(windowSurface)
+    # ## draw packages
+    # for package in packages:
+    #     package.draw(windowSurface)
 
-    if octopus.collectCount == 8:
-        text2 = font.render('Collected all 8 packages!', 1, green)
-        windowSurface.blit(text2, (screenWidth/2, screenHeight/2))
+    # if octopus.collectCount == 8:
+    #     text2 = font.render('Collected all 8 packages!', 1, green)
+    #     windowSurface.blit(text2, (screenWidth/2, screenHeight/2))
 
-    pygame.display.update() 
+    # pygame.display.update() 
 
 ## ============== DEFINE GAME OBJECTS ==============
 # font = pygame.font.SysFont('helvetica', 30, True)
@@ -108,11 +108,11 @@ while True:
     playerCollision(octopus, shark4, score)
     playerCollision(octopus, shark5, score)
 
-    # shoots bullets one at a time by delaying
-    if inkLoop > 0:
-        inkLoop += 1
-    if inkLoop > 3:
-        inkLoop = 0
+    # # shoots bullets one at a time by delaying
+    # if inkLoop > 0:
+    #     inkLoop += 1
+    # if inkLoop > 3:
+    #     inkLoop = 0
 
     # for event in pygame.event.get():
         # if event.type == QUIT:
@@ -150,13 +150,13 @@ while True:
     #     pygame.quit()
     #     sys.exit()
 
-    ## add more bullets to octopus
-    if keys[pygame.K_SPACE] and inkLoop == 0:
-        # bulletSound.play()
-        if len(bullets) < 30:
-            bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
+    # ## add more bullets to octopus
+    # if keys[pygame.K_SPACE] and inkLoop == 0:
+    #     # bulletSound.play()
+    #     if len(bullets) < 30:
+    #         bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
         
-        inkLoop = 1
+    #     inkLoop = 1
 
     ## add packages on load, will only reload if package disappears
     packageSize = 40

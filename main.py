@@ -55,6 +55,12 @@ class Game:
                 self.running == False
             
             keys = pg.key.get_pressed()
+            
+            # shoots bullets one at a time by delaying
+            if self.inkLoop > 0:
+                self.inkLoop += 1
+            if self.inkLoop > 3:
+                self.inkLoop = 0
 
             if keys[pg.K_ESCAPE]:
                 pg.quit()
@@ -69,6 +75,15 @@ class Game:
                 self.player.y -= self.player.vel
             if keys[pg.K_DOWN] and self.player.y < screenWidth - self.player.width:
                 self.player.y += self.player.vel
+            
+                ## add more bullets to octopus
+            if keys[pg.K_SPACE] and self.inkLoop == 0:
+                # bulletSound.play()
+                if len(self.bullets) < 30:
+                    self.bullets.append(Projectile(round(self.player.x + self.player.width //2), round(self.player.y + self.player.height//2), 6, (0,0,0)))
+                
+                self.inkLoop = 1
+
 
     def draw(self):
         # Game Loop - Draw
@@ -82,6 +97,19 @@ class Game:
         self.shark4.draw(self.screen)
         self.shark5.draw(self.screen)
         pg.display.update() 
+
+        ## draw bullets
+        for bullet in self.bullets:
+            # hitSound.play()
+            bullet.draw(self.screen)
+
+        ## draw packages
+        for package in self.packages:
+            package.draw(self.screen)
+
+        if self.player.collectCount == 8:
+            text2 = self.font.render('Collected all 8 packages!', 1, green)
+            self.screen.blit(text2, (screenWidth/2, screenHeight/2))
     
     def show_start_screen(self):
         # game splash/start screen
