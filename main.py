@@ -6,9 +6,17 @@ from objects.enemy import Enemy
 from objects.projectile import Projectile
 from objects.package import Package
 
+## load assets
+squidImg = pg.image.load('assets/squid.png')
+shellImg = pg.image.load('assets/shell.png')
+
+## transform assets
+squid = pg.transform.scale(squidImg, (40, 60) )
+shell = pg.transform.scale(shellImg, (30, 30))
+
 class Game:
     def __init__(self):
-        # initialize game window, etc
+        # set up & initialize game
         pg.init()
         pg.display.set_caption(title)
         self.screen = pg.display.set_mode((screenWidth, screenHeight))
@@ -29,12 +37,12 @@ class Game:
         self.shark4 = Enemy(screenWidth-200, (400 - 60), 60, 40, 800)
         self.shark5 = Enemy(screenWidth-300, (500 - 60), 60, 40, 800)
         self.inkLoop = 0
-        self.run()
         self.music = pg.mixer.music.load('music.mp3')
         pg.mixer.music.play(-1)
         self.ink = pg.mixer.Sound('inkshoot.wav')
         self.hurt = pg.mixer.Sound('hurt.wav')
         self.pickup = pg.mixer.Sound('pickup.wav')
+        self.run()
 
     def run(self):
         # Game Loop
@@ -59,16 +67,18 @@ class Game:
 
             ## ============== INTERNAL GAME CONTROLS ==============
             # check for closing window
-            if event.type == pg.QUIT:
+            if event.type == pg.QUIT: 
                 if self.playing:
                     self.playing = False
-                    self.running == False
+
+                self.running == False
               
+            # quit game via ESC key
             if keys[pg.K_ESCAPE]:
                 pg.quit()
                 sys.exit()
 
-            ## octopus movement
+            ## octopus movement arrow keys
             if keys[pg.K_LEFT] and self.player.x > self.player.vel:
                 self.player.x -= self.player.vel
             if keys[pg.K_RIGHT] and self.player.x < screenWidth - self.player.width:
@@ -78,7 +88,7 @@ class Game:
             if keys[pg.K_DOWN] and self.player.y < screenWidth - self.player.width:
                 self.player.y += self.player.vel
             
-                ## add more bullets to octopus
+            ## SPACE down add more bullets to octopus
             if keys[pg.K_SPACE] and self.inkLoop == 0:
                 # self.ink_shoot.play()
                 self.ink.play()
@@ -136,7 +146,7 @@ class Game:
         self.screen.fill(blue)
         self.draw_text('Score: ' + str(self.score), 22, black, 40, 10)
         self.text = self.font.render('Packages: ' + str(self.player.collectCount), 1, black)
-        self.screen.blit(self.text, (590, 0))
+        self.screen.blit(self.text, (590, 10))
         self.player.draw(self.screen)
         self.shark.draw(self.screen)
         self.shark2.draw(self.screen)
@@ -146,9 +156,7 @@ class Game:
 
         ## draw bullets
         for self.bullet in self.bullets:
-            # hitSound.play()
             self.bullet.draw(self.screen)
-            # print('bullet', self.bullet)
 
         ## draw packages
         for self.package in self.packages:
@@ -157,7 +165,11 @@ class Game:
         if self.player.collectCount == 8:
             self.text2 = self.font.render('Collected all 8 packages!', 1, green)
             self.screen.blit(self.text2, (screenWidth/2, screenHeight/2))
-        
+
+        if self.player.collectCount == 8:
+            self.screen.blit(squid, (screenWidth-40, (screenHeight/2 -60), 60, 60))    
+
+
         pg.display.update() 
     
     def show_start_screen(self):
