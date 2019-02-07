@@ -11,11 +11,13 @@ class Package(object):
         self.width = width
         self.height = height
         self.color = color
-        self.vel = 8
+        self.vel = 0
         self.hitbox = (self.x, self.y, 40, 40)
+        self.visiblem = True
 
     def draw(self, windowSurface):
-      pygame.draw.rect(windowSurface, self.color, (self.x, self.y))
+    #   pygame.draw.rect(windowSurface, self.color, (self.x, self.y), 2)
+      pygame.draw.rect(windowSurface, brown, (self.x+5, self.y+5, 20, 20), 2)
       ## MOVING HITBOX   
-      self.hitbox = (self.x, self.y, 40, 40)
+      self.hitbox = (self.x, self.y, 30, 30)
       pygame.draw.rect(windowSurface, red, self.hitbox, 2)

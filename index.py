@@ -66,6 +66,9 @@ def redrawGameWindow():
         # hitSound.play()
         bullet.draw(windowSurface)
 
+    for package in packages:
+        print('package', package)
+        package.draw(windowSurface)
     '''
     # Draw 8 packages
     for i in range(8):
@@ -152,6 +155,15 @@ while True:
             print('collided with package: ', package) # ex: <rect(577, 244, 20, 20)> 
     '''
 
+    for package in packages: 
+
+        ## OCTOPUS & PACKAGE COLLISION  
+        #  enemyCollision(shark, score)   
+        if package.x < 800 and package.x > 0:
+            package.x += package.vel # package is going to move vel direction
+        else: 
+            packages.pop(packages.index(package)) # pop off the package or delete them 
+
     ## ============== INTERNAL GAME CONTROLS ==============
     keys = pygame.key.get_pressed()
 
@@ -166,6 +178,18 @@ while True:
             bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
         
         inkLoop = 1
+
+    ## add packages
+    # if keys[pygame.K_o]:
+    packageSize = 40
+        # pX = random.randint(0, screenWidth - packageSize)
+        # pY = random.randint(0, screenHeight - packageSize)
+        # if len(packages) < 8:
+        #     packages.append(Package(pX, pY, packageSize, packageSize, brown))
+    pX = screenWidth/2
+    pY = screenHeight/2
+        # if len(packages) < 8:
+    packages.append(Package(pX, pY, packageSize, packageSize, brown))
 
     ## octopus movement
     if keys[pygame.K_LEFT] and octopus.x > octopus.vel:
