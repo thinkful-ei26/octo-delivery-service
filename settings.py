@@ -2,6 +2,8 @@
 title = 'OctoGun: Delivery Service'
 screenWidth = 800
 screenHeight = 600
+FPS = 30
+FONT_NAME = 'arial'
 
 # Set up colors
 blue = (0, 153, 255)

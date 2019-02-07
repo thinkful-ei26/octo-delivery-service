@@ -8,7 +8,7 @@ class Player(object):
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 10
+        self.vel = 25
         self.hitbox = (self.x + 40, self.y, 40, 40) # square tuple
         self.health = 10
         self.visible = True # if false, then game over feedback

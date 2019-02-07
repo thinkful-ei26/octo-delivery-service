@@ -15,9 +15,11 @@ class Game:
         self.screen = pg.display.set_mode((screenWidth, screenHeight))
         self.clock = pg.time.Clock()
         self.running = True
+        self.font_name = pg.font.match_font(FONT_NAME)
     
     def new(self):
         # Start a new game
+        self.score = 0
         self.player = Player(0, (screenHeight/2 - 60), 60, 60)
         self.font = pg.font.SysFont('helvetica', 30, True)
         self.bullets = []  # container for our bullet
@@ -36,26 +38,29 @@ class Game:
         # Game Loop
         self.playing = True
         while self.playing:
-            self.clock.tick(27)
+            self.clock.tick(FPS)
             self.events()
             self.update()
             self.draw()
     
     def update(self):
         # Game Loop - Update
-        pass
+        #if player reaches ~3/4 of screen create whirlpool suction down
+        if self.player.y >= screenHeight - 100:
+            self.player.y += abs(self.player.vel)
+            self.player.hit(self.screen)
                
     def events(self):
         # Game Loop - Events
         for event in pg.event.get():
+            keys = pg.key.get_pressed()
+
             # check for closing window
             if event.type == pg.QUIT:
                 if self.playing:
                     self.playing = False
                 self.running == False
-            
-            keys = pg.key.get_pressed()
-            
+              
             # shoots bullets one at a time by delaying
             if self.inkLoop > 0:
                 self.inkLoop += 1
@@ -65,6 +70,27 @@ class Game:
             if keys[pg.K_ESCAPE]:
                 pg.quit()
                 sys.exit()
+
+            ## ============== OCTOPUS & SHARK COLLISION ==============
+            self.playerCollision(self.player, self.shark, self.score)
+            self.playerCollision(self.player, self.shark2, self.score)
+            self.playerCollision(self.player, self.shark3, self.score)
+            self.playerCollision(self.player, self.shark4, self.score)
+            self.playerCollision(self.player, self.shark5, self.score)
+
+            ## ============== BULLET COLLISION LOGIC ==============
+            for self.bullet in self.bullets: 
+
+                ## BULLET & SHARK COLLISION
+                self.enemyCollision(self.shark, self.score)
+                self.enemyCollision(self.shark2, self.score)  
+                self.enemyCollision(self.shark3, self.score) 
+                self.enemyCollision(self.shark4, self.score)  
+                self.enemyCollision(self.shark5, self.score)       
+                if self.bullet.x < 800 and self.bullet.x > 0:
+                    self.bullet.x += self.bullet.vel # bullet is going to move vel direction
+                else: 
+                    self.bullets.pop(self.bullets.index(self.bullet)) # pop off the bullet or delete them 
 
             ## octopus movement
             if keys[pg.K_LEFT] and self.player.x > self.player.vel:
@@ -99,13 +125,14 @@ class Game:
         pg.display.update() 
 
         ## draw bullets
-        for bullet in self.bullets:
+        for self.bullet in self.bullets:
             # hitSound.play()
-            bullet.draw(self.screen)
+            self.bullet.draw(self.screen)
+            # print('bullet', self.bullet)
 
         ## draw packages
-        for package in self.packages:
-            package.draw(self.screen)
+        for self.package in self.packages:
+            self.package.draw(self.screen)
 
         if self.player.collectCount == 8:
             text2 = self.font.render('Collected all 8 packages!', 1, green)
@@ -118,6 +145,29 @@ class Game:
     def show_go_screen(self):
         # game over/continue 
         pass
+    
+    def draw_text(self, text, size, color, x, y):
+        font = pg.font.Font(self.font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x, y)
+        self.screen.blit(text_surface, text_rect)
+
+    def enemyCollision(self, enemyObj, score):
+      if self.bullet.y - self.bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and self.bullet.y + self.bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
+          if self.bullet.x + self.bullet.radius > enemyObj.hitbox[0] and self.bullet.x - self.bullet.radius < enemyObj.hitbox[0] + enemyObj.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
+              enemyObj.hit()
+              if enemyObj.visible == True:
+                  self.score += 1
+                  self.bullets.pop(self.bullets.index(self.bullet))
+    
+    def playerCollision(self, player, enemy, score):
+        if enemy.visible == True: # octopus no longer sustains damage if enemy is not visible
+            if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
+                if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
+                    player.hit(self.screen)
+                    self.score -= 5
+
 
 g = Game()
 g.show_start_screen()

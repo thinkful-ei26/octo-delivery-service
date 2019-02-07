@@ -73,20 +73,20 @@ from settings import *
 # shark5 = enemy(screenWidth-300, (500 - 60), 60, 40, 800)
 # inkLoop = 0
 
-def enemyCollision(enemyObj, score):
-      if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
-          if bullet.x + bullet.radius > enemyObj.hitbox[0] and bullet.x - bullet.radius < enemyObj.hitbox[0] + enemyObj.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
-              enemyObj.hit()
-              if enemyObj.visible == True:
-                  score += 1
-                  bullets.pop(bullets.index(bullet))
+# def enemyCollision(enemyObj, score):
+#       if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
+#           if bullet.x + bullet.radius > enemyObj.hitbox[0] and bullet.x - bullet.radius < enemyObj.hitbox[0] + enemyObj.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
+#               enemyObj.hit()
+#               if enemyObj.visible == True:
+#                   score += 1
+#                   bullets.pop(bullets.index(bullet))
 
-def playerCollision(player, enemy, score):
-    if enemy.visible == True: # octopus no longer sustains damage if enemy is not visible
-        if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
-            if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
-                player.hit(windowSurface)
-                score -= 5
+# def playerCollision(player, enemy, score):
+#     if enemy.visible == True: # octopus no longer sustains damage if enemy is not visible
+#         if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
+#             if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
+#                 player.hit(windowSurface)
+#                 score -= 5
 
 def packageCollision(player):
     if player.hitbox[1] < package.hitbox[1] + package.hitbox[3] and player.hitbox[1] + player.hitbox[3] > package.hitbox[1]:
@@ -101,12 +101,12 @@ while True:
 # Check for events:
     # clock.tick(27) # game clock
 
-    ## ============== OCTOPUS & SHARK COLLISION ==============
-    playerCollision(octopus, shark, score)
-    playerCollision(octopus, shark2, score)
-    playerCollision(octopus, shark3, score)
-    playerCollision(octopus, shark4, score)
-    playerCollision(octopus, shark5, score)
+    # ## ============== OCTOPUS & SHARK COLLISION ==============
+    # playerCollision(octopus, shark, score)
+    # playerCollision(octopus, shark2, score)
+    # playerCollision(octopus, shark3, score)
+    # playerCollision(octopus, shark4, score)
+    # playerCollision(octopus, shark5, score)
 
     # # shoots bullets one at a time by delaying
     # if inkLoop > 0:
@@ -119,19 +119,19 @@ while True:
         #     pygame.quit()
         #     sys.exit()
 
-    ## ============== BULLET COLLISION LOGIC ==============
-    for bullet in bullets: 
+    # ## ============== BULLET COLLISION LOGIC ==============
+    # for bullet in bullets: 
 
-        ## BULLET & SHARK COLLISION
-        enemyCollision(shark, score)
-        enemyCollision(shark2, score)  
-        enemyCollision(shark3, score) 
-        enemyCollision(shark4, score)  
-        enemyCollision(shark5, score)       
-        if bullet.x < 800 and bullet.x > 0:
-            bullet.x += bullet.vel # bullet is going to move vel direction
-        else: 
-            bullets.pop(bullets.index(bullet)) # pop off the bullet or delete them 
+    #     ## BULLET & SHARK COLLISION
+    #     enemyCollision(shark, score)
+    #     enemyCollision(shark2, score)  
+    #     enemyCollision(shark3, score) 
+    #     enemyCollision(shark4, score)  
+    #     enemyCollision(shark5, score)       
+    #     if bullet.x < 800 and bullet.x > 0:
+    #         bullet.x += bullet.vel # bullet is going to move vel direction
+    #     else: 
+    #         bullets.pop(bullets.index(bullet)) # pop off the bullet or delete them 
 
     ## ============== PACKAGE COLLISION LOGIC ==============
     for package in packages: 
@@ -175,10 +175,10 @@ while True:
     # if keys[pygame.K_DOWN] and octopus.y < screenWidth - octopus.width:
     #     octopus.y += octopus.vel
     
-    redrawGameWindow()
+    # redrawGameWindow()
 
 
-pygame.quit()
+# pygame.quit()
 
 # detect collision:
 '''
