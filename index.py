@@ -37,8 +37,8 @@ from settings import *
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
     # windowSurface.fill((blue))
-    text = font.render('Packages: ' + str(octopus.collectCount), 1, black)
-    windowSurface.blit(text, (590, 0))
+    # text = font.render('Packages: ' + str(octopus.collectCount), 1, black)
+    # windowSurface.blit(text, (590, 0))
     # octopus.draw(windowSurface)
     shark.draw(windowSurface)
     shark2.draw(windowSurface)

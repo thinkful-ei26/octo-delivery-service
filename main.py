@@ -12,7 +12,7 @@ class Game:
         # Set up pygame
         pg.init()
         pg.display.set_caption(title)
-        self.windowSurface = self.screen =pg.display.set_mode((screenWidth, screenHeight))
+        self.screen = pg.display.set_mode((screenWidth, screenHeight))
         self.clock = pg.time.Clock()
         self.running = True
     
@@ -76,6 +76,11 @@ class Game:
         self.text = self.font.render('Packages: ' + str(self.player.collectCount), 1, black)
         self.screen.blit(self.text, (590, 0))
         self.player.draw(self.screen)
+        self.shark.draw(self.screen)
+        self.shark2.draw(self.screen)
+        self.shark3.draw(self.screen)
+        self.shark4.draw(self.screen)
+        self.shark5.draw(self.screen)
         pg.display.update() 
     
     def show_start_screen(self):
