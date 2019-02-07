@@ -17,6 +17,9 @@ class player(object):
         self.hitbox = (self.x + 40, self.y, 40, 40) # square tuple
         self.health = 10
         self.visible = True # if false, then game over feedback
+        self.collecting = False #octo won't have a package on load
+        self.collectCount = 0
+        self.delivering = False # switch True if all 8 packages collected
         
     def draw (self, windowSurface):
         octoImg = pygame.image.load('assets/octopic.png')
@@ -40,6 +43,16 @@ class player(object):
             self.visible = False
             font1 = pygame.font.SysFont('helvetica', 100)
             text = font1.render('GAME OVER', 1, (255,0,0))
+            windowSurface.blit(text, (250 - (text.get_width()/2),200))
+            pygame.display.update()
+    
+    def collect(self, windowSurface):
+        if self.collectCount < 0:
+            self.collectCount += 1
+        if self.collectCount == 8: #octo has collected all packages
+            self.delivering = True
+            font2 = pygame.font.SysFont('helvetica', 50)
+            text = font2.render('8 packages collected!', 1, (0,255,0))
             windowSurface.blit(text, (250 - (text.get_width()/2),200))
             pygame.display.update()
             

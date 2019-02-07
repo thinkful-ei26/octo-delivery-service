@@ -40,14 +40,6 @@ pygame.mixer.music.play(-1)
 score = 0
 packageCount = 0
 
-'''
-## Set up packages
-packageSize = 20
-packages = []
-for i in range(8):
-    packages.append(pygame.Rect(random.randint(0, screenWidth - packageSize), random.randint(0, screenHeight - packageSize), packageSize, packageSize))
-'''
-
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
     windowSurface.fill((blue))
@@ -62,18 +54,13 @@ def redrawGameWindow():
   
     ## draw bullets
     for bullet in bullets:
-        #print('bullet: ',bullet)
         # hitSound.play()
         bullet.draw(windowSurface)
 
+    ## draw packages
     for package in packages:
         print('package', package)
         package.draw(windowSurface)
-    '''
-    # Draw 8 packages
-    for i in range(8):
-        pygame.draw.rect(windowSurface, brown, packages[i])
-    '''
 
     pygame.display.update() 
 
@@ -89,11 +76,6 @@ shark4 = enemy(screenWidth-200, (400 - 60), 60, 40, 800)
 shark5 = enemy(screenWidth-300, (500 - 60), 60, 40, 800)
 inkLoop = 0
 
-'''
-for i in range(8):
-    packages.append(pygame.Rect(random.randint(0, screenWidth - packageSize), random.randint(0, screenHeight - packageSize), packageSize, packageSize))
-'''
-
 def enemyCollision(enemyObj, score):
       if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
           if bullet.x + bullet.radius > enemyObj.hitbox[0] and bullet.x - bullet.radius < enemyObj.hitbox[0] + enemyObj.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
@@ -108,6 +90,14 @@ def playerCollision(player, enemy, score):
             if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
                 player.hit(windowSurface)
                 score -= 5
+
+def packageCollision(player):
+    if player.hitbox[1] < package.hitbox[1] + package.hitbox[3] and player.hitbox[1] + player.hitbox[3] > package.hitbox[1]:
+        if player.hitbox[0] + player.hitbox[2] > package.hitbox[0] and player.hitbox[0] < package.hitbox[0] + package.hitbox[2]:
+              player.collect(windowSurface)
+              if player.visible == True:
+                #   score += 1
+                  packages.pop(packages.index(package))
 
 ## ============== MAIN LOOP ==============
 while True:  
@@ -155,10 +145,11 @@ while True:
             print('collided with package: ', package) # ex: <rect(577, 244, 20, 20)> 
     '''
 
-    for package in packages: 
 
+    for package in packages: 
+    
         ## OCTOPUS & PACKAGE COLLISION  
-        #  enemyCollision(shark, score)   
+        packageCollision(octopus)  
         if package.x < 800 and package.x > 0:
             package.x += package.vel # package is going to move vel direction
         else: 
