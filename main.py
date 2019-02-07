@@ -1,6 +1,10 @@
 import pygame as pg
-import random
+import random, sys
 from settings import *
+from objects.player import Player
+from objects.enemy import Enemy
+from objects.projectile import Projectile
+from objects.package import Package
 
 class Game:
     def __init__(self):
@@ -14,7 +18,19 @@ class Game:
     
     def new(self):
         # Start a new game
+        self.player = Player(0, (screenHeight/2 - 60), 60, 60)
+        self.font = pg.font.SysFont('helvetica', 30, True)
+        self.bullets = []  # container for our bullet
+        self.packages = []
+        self.shark = Enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
+        self.shark2 = Enemy(screenWidth-200, (screenHeight/3 - 60), 60, 40, 800)
+        self.shark3 = Enemy(screenWidth-300, (screenHeight/5 - 60), 60, 40, 800)
+        self.shark4 = Enemy(screenWidth-200, (400 - 60), 60, 40, 800)
+        self.shark5 = Enemy(screenWidth-300, (500 - 60), 60, 40, 800)
+        self.inkLoop = 0
         self.run()
+        self.music = pg.mixer.music.load('music.mp3')
+        pg.mixer.music.play(-1)
 
     def run(self):
         # Game Loop
@@ -44,9 +60,22 @@ class Game:
                 pg.quit()
                 sys.exit()
 
+            ## octopus movement
+            if keys[pg.K_LEFT] and self.player.x > self.player.vel:
+                self.player.x -= self.player.vel
+            if keys[pg.K_RIGHT] and self.player.x < screenWidth - self.player.width:
+                self.player.x += self.player.vel
+            if keys[pg.K_UP] and self.player.y > self.player.vel:
+                self.player.y -= self.player.vel
+            if keys[pg.K_DOWN] and self.player.y < screenWidth - self.player.width:
+                self.player.y += self.player.vel
+
     def draw(self):
         # Game Loop - Draw
         self.screen.fill(blue)
+        self.text = self.font.render('Packages: ' + str(self.player.collectCount), 1, black)
+        self.screen.blit(self.text, (590, 0))
+        self.player.draw(self.screen)
         pg.display.update() 
     
     def show_start_screen(self):

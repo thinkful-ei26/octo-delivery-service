@@ -2,7 +2,7 @@ import pygame
 from settings import *
 
 ## ============== PROJECTILE ==============
-class projectile(object):
+class Projectile(object):
   def __init__(self, x, y, radius, color):
       self.x = x
       self.y = y

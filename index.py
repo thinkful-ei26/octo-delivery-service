@@ -29,17 +29,17 @@ from settings import *
 #bulletSound = pygame.mixer.Sound('bullet.wav')
 # bulletSound = pygame.mixer.music.load('bullet.mp3')
 #hitSound = pygame.mixer.Sound('hit.wav'
-music = pygame.mixer.music.load('music.mp3')
-pygame.mixer.music.play(-1)
+# music = pygame.mixer.music.load('music.mp3')
+# pygame.mixer.music.play(-1)
 
-score = 0
+# score = 0
 
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
-    windowSurface.fill((blue))
+    # windowSurface.fill((blue))
     text = font.render('Packages: ' + str(octopus.collectCount), 1, black)
     windowSurface.blit(text, (590, 0))
-    octopus.draw(windowSurface)
+    # octopus.draw(windowSurface)
     shark.draw(windowSurface)
     shark2.draw(windowSurface)
     shark3.draw(windowSurface)
@@ -62,16 +62,16 @@ def redrawGameWindow():
     pygame.display.update() 
 
 ## ============== DEFINE GAME OBJECTS ==============
-font = pygame.font.SysFont('helvetica', 30, True)
-octopus = player(0, (screenHeight/2 - 60), 60, 60)
-bullets = []  # container for our bullet
-packages = []
-shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
-shark2 = enemy(screenWidth-200, (screenHeight/3 - 60), 60, 40, 800)
-shark3 = enemy(screenWidth-300, (screenHeight/5 - 60), 60, 40, 800)
-shark4 = enemy(screenWidth-200, (400 - 60), 60, 40, 800)
-shark5 = enemy(screenWidth-300, (500 - 60), 60, 40, 800)
-inkLoop = 0
+# font = pygame.font.SysFont('helvetica', 30, True)
+# octopus = player(0, (screenHeight/2 - 60), 60, 60)
+# bullets = []  # container for our bullet
+# packages = []
+# shark = enemy(screenWidth-100, (screenHeight/2 - 60), 60, 40, 800)
+# shark2 = enemy(screenWidth-200, (screenHeight/3 - 60), 60, 40, 800)
+# shark3 = enemy(screenWidth-300, (screenHeight/5 - 60), 60, 40, 800)
+# shark4 = enemy(screenWidth-200, (400 - 60), 60, 40, 800)
+# shark5 = enemy(screenWidth-300, (500 - 60), 60, 40, 800)
+# inkLoop = 0
 
 def enemyCollision(enemyObj, score):
       if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
@@ -114,10 +114,10 @@ while True:
     if inkLoop > 3:
         inkLoop = 0
 
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
+    # for event in pygame.event.get():
+        # if event.type == QUIT:
+        #     pygame.quit()
+        #     sys.exit()
 
     ## ============== BULLET COLLISION LOGIC ==============
     for bullet in bullets: 
@@ -144,11 +144,11 @@ while True:
             packages.pop(packages.index(package))
 
     ## ============== INTERNAL GAME CONTROLS ==============
-    keys = pygame.key.get_pressed()
+    # keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_ESCAPE]:
-        pygame.quit()
-        sys.exit()
+    # if keys[pygame.K_ESCAPE]:
+    #     pygame.quit()
+    #     sys.exit()
 
     ## add more bullets to octopus
     if keys[pygame.K_SPACE] and inkLoop == 0:
@@ -165,15 +165,15 @@ while True:
     if len(packages) <= 2:
         packages.append(Package(pX, pY, packageSize, packageSize, brown))
 
-    ## octopus movement
-    if keys[pygame.K_LEFT] and octopus.x > octopus.vel:
-        octopus.x -= octopus.vel
-    if keys[pygame.K_RIGHT] and octopus.x < screenWidth - octopus.width:
-        octopus.x += octopus.vel
-    if keys[pygame.K_UP] and octopus.y > octopus.vel:
-        octopus.y -= octopus.vel
-    if keys[pygame.K_DOWN] and octopus.y < screenWidth - octopus.width:
-        octopus.y += octopus.vel
+    # ## octopus movement
+    # if keys[pygame.K_LEFT] and octopus.x > octopus.vel:
+    #     octopus.x -= octopus.vel
+    # if keys[pygame.K_RIGHT] and octopus.x < screenWidth - octopus.width:
+    #     octopus.x += octopus.vel
+    # if keys[pygame.K_UP] and octopus.y > octopus.vel:
+    #     octopus.y -= octopus.vel
+    # if keys[pygame.K_DOWN] and octopus.y < screenWidth - octopus.width:
+    #     octopus.y += octopus.vel
     
     redrawGameWindow()
 

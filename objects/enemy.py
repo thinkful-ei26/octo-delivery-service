@@ -2,7 +2,7 @@ import pygame
 from settings import *
 
 ## ============== ENEMY ==============
-class enemy(object): 
+class Enemy(object): 
     _SL1 = pygame.image.load('assets/SL1.png')
     SL1 = pygame.transform.scale(_SL1, (100,40))
     _SL2 = pygame.image.load('assets/SL2.png')
