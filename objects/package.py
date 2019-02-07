@@ -17,4 +17,4 @@ class Package(object):
       pygame.draw.rect(windowSurface, brown, (self.x+5, self.y+5, 20, 20), 0)
       ## MOVING HITBOX   
       self.hitbox = (self.x, self.y, 30, 30)
-      #pygame.draw.rect(windowSurface, red, self.hitbox, 2)
+      pygame.draw.rect(windowSurface, red, self.hitbox, 2)

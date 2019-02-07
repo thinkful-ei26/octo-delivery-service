@@ -15,4 +15,4 @@ class Projectile(object):
       pygame.draw.circle(windowSurface, self.color, (self.x, self.y), self.radius)
       ## MOVING HITBOX   
       self.hitbox = (self.x-8, self.y-5, 15, 15)
-      #pygame.draw.rect(windowSurface, red, self.hitbox, 2)
+      pygame.draw.rect(windowSurface, red, self.hitbox, 2)

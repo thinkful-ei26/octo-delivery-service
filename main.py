@@ -150,8 +150,8 @@ class Game:
             self.package.draw(self.screen)
 
         if self.player.collectCount == 8:
-            text2 = self.font.render('Collected all 8 packages!', 1, green)
-            self.screen.blit(text2, (screenWidth/2, screenHeight/2))
+            self.text2 = self.font.render('Collected all 8 packages!', 1, green)
+            self.screen.blit(self.text2, (screenWidth/2, screenHeight/2))
         
         pg.display.update() 
     
