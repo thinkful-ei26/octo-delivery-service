@@ -33,7 +33,7 @@ brown = (222,184,135)
 clock = pygame.time.Clock()
 
 #bulletSound = pygame.mixer.Sound('bullet.wav')
-#hitSound = pygame.mixer.Sound('hit.wav')
+#hitSound = pygame.mixer.Sound('hit.wav'
 music = pygame.mixer.music.load('music.mp3')
 pygame.mixer.music.play(-1)
 
