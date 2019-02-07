@@ -1,10 +1,9 @@
 # :octopus: **OctoGun: Delivery Service** :octopus: | 
-You are a gunslinger octopus whose job is to deliver packages. You must successfully navigate the seafloor, evade all sharks and eels to collect and deliver packages to your customers.
+You are a gunslinger octopus whose job is to deliver packages. You must successfully navigate the seafloor, evading all sharks and eels to collect and deliver packages to your customers.
 
   <img src="assets/screenshot.png" alt="OctoGun Delivery Service Screen Shot" width="800px">
 
 ## Proof of Concept:
-What can you get done at the end of today to know that this is going to work for the rest of the week?
 - :white_check_mark: Render octopus with game controls
 - :white_check_mark: Detect collisions and have feedback in the game
 - :white_check_mark: Game success & game over scenario

@@ -33,6 +33,7 @@ brown = (222,184,135)
 clock = pygame.time.Clock()
 
 #bulletSound = pygame.mixer.Sound('bullet.wav')
+# bulletSound = pygame.mixer.music.load('bullet.mp3')
 #hitSound = pygame.mixer.Sound('hit.wav'
 music = pygame.mixer.music.load('music.mp3')
 pygame.mixer.music.play(-1)
@@ -157,7 +158,7 @@ while True:
 
     ## add more bullets to octopus
     if keys[pygame.K_SPACE] and inkLoop == 0:
-        #bulletSound.play()
+        # bulletSound.play()
         if len(bullets) < 30:
             bullets.append(projectile(round(octopus.x + octopus.width //2), round(octopus.y + octopus.height//2), 6, (0,0,0)))
         
