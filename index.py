@@ -179,17 +179,12 @@ while True:
         
         inkLoop = 1
 
-    ## add packages
-    # if keys[pygame.K_o]:
+    ## add packages on load, will only reload if package disappears
     packageSize = 40
-        # pX = random.randint(0, screenWidth - packageSize)
-        # pY = random.randint(0, screenHeight - packageSize)
-        # if len(packages) < 8:
-        #     packages.append(Package(pX, pY, packageSize, packageSize, brown))
-    pX = screenWidth/2
-    pY = screenHeight/2
-        # if len(packages) < 8:
-    packages.append(Package(pX, pY, packageSize, packageSize, brown))
+    pX = random.randint(0, screenWidth - packageSize)
+    pY = random.randint(0, screenHeight - packageSize)
+    if len(packages) <= 2:
+        packages.append(Package(pX, pY, packageSize, packageSize, brown))
 
     ## octopus movement
     if keys[pygame.K_LEFT] and octopus.x > octopus.vel:

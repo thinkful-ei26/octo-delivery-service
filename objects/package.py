@@ -11,7 +11,7 @@ class Package(object):
         self.width = width
         self.height = height
         self.color = color
-        self.vel = 0
+        self.vel = 1
         self.hitbox = (self.x, self.y, 40, 40)
         self.visiblem = True
 
