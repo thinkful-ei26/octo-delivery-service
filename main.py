@@ -5,6 +5,7 @@ from objects.player import Player
 from objects.enemy import Enemy
 from objects.projectile import Projectile
 from objects.package import Package
+from os import path  # path cmd, help locate other files in the computer
 
 class Game:
     def __init__(self):
@@ -16,6 +17,12 @@ class Game:
         self.running = True
         self.font_name = pg.font.match_font(FONT_NAME)
     
+    # def data(self):
+    #   self.dir = path.dirname(__file__)
+    #   # load sounds
+    #   self.snd_dir = path.join(self.dir, 'snd')
+    #   self.ink_shoot = pg.mixer.Sound(path.join(self.snd_dir, 'inkshoot.wav'))
+
     def new(self):
         # Start a new game
         self.score = 0
@@ -32,6 +39,7 @@ class Game:
         self.run()
         self.music = pg.mixer.music.load('music.mp3')
         pg.mixer.music.play(-1)
+        self.ink = pg.mixer.Sound('inkshoot.wav')
 
     def run(self):
         # Game Loop
@@ -77,7 +85,8 @@ class Game:
             
                 ## add more bullets to octopus
             if keys[pg.K_SPACE] and self.inkLoop == 0:
-                # bulletSound.play()
+                # self.ink_shoot.play()
+                self.ink.play()
                 if len(self.bullets) < 30:
                     self.bullets.append(Projectile(round(self.player.x + self.player.width //2), round(self.player.y + self.player.height//2), 6, (0,0,0)))
                 
@@ -217,7 +226,6 @@ class Game:
                       self.score += 100
                       print('score: ', self.score)
                       self.packages.pop(self.packages.index(self.package))
-
 
 g = Game()
 g.show_start_screen()
