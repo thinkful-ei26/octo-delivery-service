@@ -35,6 +35,7 @@ class Game:
         pg.mixer.music.play(-1)
         self.ink = pg.mixer.Sound('inkshoot.wav')
         self.hurt = pg.mixer.Sound('hurt.wav')
+        self.pickup = pg.mixer.Sound('pickup.wav')
 
     def run(self):
         # Game Loop
@@ -134,7 +135,7 @@ class Game:
     def draw(self):
         # Game Loop - Draw
         self.screen.fill(blue)
-        self.draw_text(str(self.score), 22, black, 10, 10)
+        self.draw_text('Score: ' + str(self.score), 22, black, 40, 10)
         self.text = self.font.render('Packages: ' + str(self.player.collectCount), 1, black)
         self.screen.blit(self.text, (590, 0))
         self.player.draw(self.screen)
@@ -218,9 +219,9 @@ class Game:
         if self.player.hitbox[1] < self.package.hitbox[1] + self.package.hitbox[3] and self.player.hitbox[1] + self.player.hitbox[3] > self.package.hitbox[1]:
             if self.player.hitbox[0] + self.player.hitbox[2] > self.package.hitbox[0] and self.player.hitbox[0] < self.package.hitbox[0] + self.package.hitbox[2]:
                   self.player.collect(self.screen)
+                  self.pickup.play()
                   if self.player.visible == True:
                       self.score += 100
-                      print('score: ', self.score)
                       self.packages.pop(self.packages.index(self.package))
 
 g = Game()
