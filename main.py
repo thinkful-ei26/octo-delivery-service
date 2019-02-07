@@ -17,12 +17,6 @@ class Game:
         self.running = True
         self.font_name = pg.font.match_font(FONT_NAME)
     
-    # def data(self):
-    #   self.dir = path.dirname(__file__)
-    #   # load sounds
-    #   self.snd_dir = path.join(self.dir, 'snd')
-    #   self.ink_shoot = pg.mixer.Sound(path.join(self.snd_dir, 'inkshoot.wav'))
-
     def new(self):
         # Start a new game
         self.score = 0
@@ -40,6 +34,7 @@ class Game:
         self.music = pg.mixer.music.load('music.mp3')
         pg.mixer.music.play(-1)
         self.ink = pg.mixer.Sound('inkshoot.wav')
+        self.hurt = pg.mixer.Sound('hurt.wav')
 
     def run(self):
         # Game Loop
@@ -216,6 +211,7 @@ class Game:
             if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
                 if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
                     player.hit(self.screen)
+                    self.hurt.play()
                     self.score -= 5
       
     def packageCollision(self, player):
