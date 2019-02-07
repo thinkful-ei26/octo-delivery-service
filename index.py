@@ -43,8 +43,8 @@ packageCount = 0
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
     windowSurface.fill((blue))
-    # text = font.render('Score: ' + str(score), 1, black)
-    # windowSurface.blit(text, (590, 0))
+    text = font.render('Packages: ' + str(packageCount), 1, black)
+    windowSurface.blit(text, (590, 0))
     octopus.draw(windowSurface)
     shark.draw(windowSurface)
     shark2.draw(windowSurface)
@@ -59,7 +59,6 @@ def redrawGameWindow():
 
     ## draw packages
     for package in packages:
-        print('package', package)
         package.draw(windowSurface)
 
     pygame.display.update() 
@@ -153,6 +152,8 @@ while True:
         if package.x < 800 and package.x > 0:
             package.x += package.vel # package is going to move vel direction
         else: 
+            packageCount +=1
+            print(packageCount)
             packages.pop(packages.index(package)) # pop off the package or delete them 
 
     ## ============== INTERNAL GAME CONTROLS ==============
@@ -194,7 +195,6 @@ pygame.quit()
 # detect collision:
 '''
 [] score bug
-[] octo & package collision logic
 [] add package score when octo collides
 [] next scene => octo & squid => end game
 [] octo still shooting when not visible 
@@ -207,4 +207,5 @@ pygame.quit()
 [DONE] add more sharks
 [DONE] background music
 [DONE] octo health render, decrease when touching shark
+[DONE] octo & package collision logic
 '''
