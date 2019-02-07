@@ -9,7 +9,6 @@ from objects.package import Package
 class Game:
     def __init__(self):
         # initialize game window, etc
-        # Set up pygame
         pg.init()
         pg.display.set_caption(title)
         self.screen = pg.display.set_mode((screenWidth, screenHeight))
@@ -55,21 +54,34 @@ class Game:
         for event in pg.event.get():
             keys = pg.key.get_pressed()
 
+            ## ============== INTERNAL GAME CONTROLS ==============
             # check for closing window
             if event.type == pg.QUIT:
                 if self.playing:
                     self.playing = False
                 self.running == False
               
-            # shoots bullets one at a time by delaying
-            if self.inkLoop > 0:
-                self.inkLoop += 1
-            if self.inkLoop > 3:
-                self.inkLoop = 0
-
             if keys[pg.K_ESCAPE]:
                 pg.quit()
                 sys.exit()
+
+            ## octopus movement
+            if keys[pg.K_LEFT] and self.player.x > self.player.vel:
+                self.player.x -= self.player.vel
+            if keys[pg.K_RIGHT] and self.player.x < screenWidth - self.player.width:
+                self.player.x += self.player.vel
+            if keys[pg.K_UP] and self.player.y > self.player.vel:
+                self.player.y -= self.player.vel
+            if keys[pg.K_DOWN] and self.player.y < screenWidth - self.player.width:
+                self.player.y += self.player.vel
+            
+                ## add more bullets to octopus
+            if keys[pg.K_SPACE] and self.inkLoop == 0:
+                # bulletSound.play()
+                if len(self.bullets) < 30:
+                    self.bullets.append(Projectile(round(self.player.x + self.player.width //2), round(self.player.y + self.player.height//2), 6, (0,0,0)))
+                
+                self.inkLoop = 1
 
             ## ============== OCTOPUS & SHARK COLLISION ==============
             self.playerCollision(self.player, self.shark, self.score)
@@ -79,6 +91,12 @@ class Game:
             self.playerCollision(self.player, self.shark5, self.score)
 
             ## ============== BULLET COLLISION LOGIC ==============
+            # shoots bullets one at a time by delaying
+            if self.inkLoop > 0:
+                self.inkLoop += 1
+            if self.inkLoop > 3:
+                self.inkLoop = 0
+
             for self.bullet in self.bullets: 
 
                 ## BULLET & SHARK COLLISION
@@ -102,31 +120,12 @@ class Game:
                 else: 
                     self.packages.pop(self.packages.index(self.package))
             
-              ## add packages on load, will only reload if package disappears
+            ## add packages on load, will only reload if package disappears
             packageSize = 40
             pX = random.randint(0, screenWidth - packageSize)
             pY = random.randint(0, screenHeight - packageSize)
             if len(self.packages) <= 2:
                   self.packages.append(Package(pX, pY, packageSize, packageSize, brown))
-
-            ## octopus movement
-            if keys[pg.K_LEFT] and self.player.x > self.player.vel:
-                self.player.x -= self.player.vel
-            if keys[pg.K_RIGHT] and self.player.x < screenWidth - self.player.width:
-                self.player.x += self.player.vel
-            if keys[pg.K_UP] and self.player.y > self.player.vel:
-                self.player.y -= self.player.vel
-            if keys[pg.K_DOWN] and self.player.y < screenWidth - self.player.width:
-                self.player.y += self.player.vel
-            
-                ## add more bullets to octopus
-            if keys[pg.K_SPACE] and self.inkLoop == 0:
-                # bulletSound.play()
-                if len(self.bullets) < 30:
-                    self.bullets.append(Projectile(round(self.player.x + self.player.width //2), round(self.player.y + self.player.height//2), 6, (0,0,0)))
-                
-                self.inkLoop = 1
-
 
     def draw(self):
         # Game Loop - Draw
