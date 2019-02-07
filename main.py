@@ -90,7 +90,6 @@ class Game:
             
             ## SPACE down add more bullets to octopus
             if keys[pg.K_SPACE] and self.inkLoop == 0:
-                # self.ink_shoot.play()
                 self.ink.play()
                 if len(self.bullets) < 30:
                     self.bullets.append(Projectile(round(self.player.x + self.player.width //2), round(self.player.y + self.player.height//2), 6, (0,0,0)))
@@ -165,11 +164,8 @@ class Game:
         if self.player.collectCount == 8:
             self.text2 = self.font.render('Collected all 8 packages!', 1, green)
             self.screen.blit(self.text2, (screenWidth/2, screenHeight/2))
-
-        if self.player.collectCount == 8:
-            self.screen.blit(squid, (screenWidth-40, (screenHeight/2 -60), 60, 60))    
-
-
+            self.screen.blit(squid, (screenWidth-40, (screenHeight/2 -60), 60, 60)) # randomize the squid velocity & position, up & down motion    
+        
         pg.display.update() 
     
     def show_start_screen(self):
@@ -185,12 +181,14 @@ class Game:
         # game over/continue 
         if not self.running:
             return 
+        # if self.player.health <= 50:
         self.screen.fill(black)
         self.draw_text('GAME OVER', 48, blue, screenWidth/2, screenHeight / 4)
         self.draw_text('Score: ' + str(self.score), 22, blue, screenWidth/2, screenHeight / 2)
         self.draw_text("press a key to play", 22, blue, screenWidth /2, screenHeight * 3 / 4)
         pg.display.flip()
-        self.wait_for_key()    
+        self.wait_for_key()
+      
 
     def wait_for_key(self):
         waiting = True
@@ -239,6 +237,8 @@ g = Game()
 g.show_start_screen()
 while g.running:
     g.new()
+    # print(g.player.health)
+    # if g.player.health == 0:
     g.show_go_screen() #game over screen
 
 pg.quit()
