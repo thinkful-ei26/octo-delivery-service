@@ -27,7 +27,7 @@ class enemy(object):
         self.height = height
         self.end = end
         self.path = [self.x, self.end] #start and end of enemy path
-        self.vel = 3
+        self.vel = 5
         self.swimCount = 0
         self.hitbox = (self.x, self.y, 100, 40 )
         self.health = 10

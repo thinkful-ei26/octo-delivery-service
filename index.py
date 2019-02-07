@@ -139,8 +139,6 @@ while True:
             bullets.pop(bullets.index(bullet)) # pop off the bullet or delete them 
 
     ## ============== PACKAGE COLLISION LOGIC ==============
-    ## Check whether the player has intersected with any package squares.
-
     for package in packages: 
     
         ## OCTOPUS & PACKAGE COLLISION  
@@ -148,9 +146,7 @@ while True:
         if package.x < 800 and package.x > 0:
             package.x += package.vel # package is going to move vel direction
         else: 
-            # packageCount +=1
-            # print('collectCount: ',octopus.collectCount)
-            packages.pop(packages.index(package)) # pop off the package or delete them 
+            packages.pop(packages.index(package))
 
     ## ============== INTERNAL GAME CONTROLS ==============
     keys = pygame.key.get_pressed()
