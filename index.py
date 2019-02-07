@@ -88,16 +88,16 @@ from settings import *
 #                 player.hit(windowSurface)
 #                 score -= 5
 
-def packageCollision(player):
-    if player.hitbox[1] < package.hitbox[1] + package.hitbox[3] and player.hitbox[1] + player.hitbox[3] > package.hitbox[1]:
-        if player.hitbox[0] + player.hitbox[2] > package.hitbox[0] and player.hitbox[0] < package.hitbox[0] + package.hitbox[2]:
-              player.collect(windowSurface)
-              if player.visible == True:
-                #   score += 1
-                  packages.pop(packages.index(package))
+# def packageCollision(player):
+#     if player.hitbox[1] < package.hitbox[1] + package.hitbox[3] and player.hitbox[1] + player.hitbox[3] > package.hitbox[1]:
+#         if player.hitbox[0] + player.hitbox[2] > package.hitbox[0] and player.hitbox[0] < package.hitbox[0] + package.hitbox[2]:
+#               player.collect(windowSurface)
+#               if player.visible == True:
+#                 #   score += 1
+#                   packages.pop(packages.index(package))
 
 ## ============== MAIN LOOP ==============
-while True:  
+# while True:  
 # Check for events:
     # clock.tick(27) # game clock
 
@@ -133,15 +133,15 @@ while True:
     #     else: 
     #         bullets.pop(bullets.index(bullet)) # pop off the bullet or delete them 
 
-    ## ============== PACKAGE COLLISION LOGIC ==============
-    for package in packages: 
+    # ## ============== PACKAGE COLLISION LOGIC ==============
+    # for package in packages: 
     
-        ## OCTOPUS & PACKAGE COLLISION  
-        packageCollision(octopus)  
-        if package.x < 800 and package.x > 0:
-            package.x += package.vel # package is going to move vel direction
-        else: 
-            packages.pop(packages.index(package))
+    #     ## OCTOPUS & PACKAGE COLLISION  
+    #     packageCollision(octopus)  
+    #     if package.x < 800 and package.x > 0:
+    #         package.x += package.vel # package is going to move vel direction
+    #     else: 
+    #         packages.pop(packages.index(package))
 
     ## ============== INTERNAL GAME CONTROLS ==============
     # keys = pygame.key.get_pressed()
@@ -158,12 +158,12 @@ while True:
         
     #     inkLoop = 1
 
-    ## add packages on load, will only reload if package disappears
-    packageSize = 40
-    pX = random.randint(0, screenWidth - packageSize)
-    pY = random.randint(0, screenHeight - packageSize)
-    if len(packages) <= 2:
-        packages.append(Package(pX, pY, packageSize, packageSize, brown))
+    # ## add packages on load, will only reload if package disappears
+    # packageSize = 40
+    # pX = random.randint(0, screenWidth - packageSize)
+    # pY = random.randint(0, screenHeight - packageSize)
+    # if len(packages) <= 2:
+    #     packages.append(Package(pX, pY, packageSize, packageSize, brown))
 
     # ## octopus movement
     # if keys[pygame.K_LEFT] and octopus.x > octopus.vel:

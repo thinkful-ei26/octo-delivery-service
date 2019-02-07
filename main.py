@@ -33,6 +33,12 @@ class Game:
         self.run()
         self.music = pg.mixer.music.load('music.mp3')
         pg.mixer.music.play(-1)
+        ## add packages on load, will only reload if package disappears
+        self.packageSize = 40
+        self.pX = random.randint(0, screenWidth - self.packageSize)
+        self.pY = random.randint(0, screenHeight - self.packageSize)
+        if len(self.packages) <= 2:
+            self.packages.append(Package(self.pX, self.pY, self.packageSize, self.packageSize, brown))
 
     def run(self):
         # Game Loop
@@ -92,6 +98,16 @@ class Game:
                 else: 
                     self.bullets.pop(self.bullets.index(self.bullet)) # pop off the bullet or delete them 
 
+            ## ============== PACKAGE COLLISION LOGIC ==============
+            for self.package in self.packages: 
+            
+                ## OCTOPUS & PACKAGE COLLISION  
+                self.packageCollision(self.player)  
+                if self.package.x < 800 and self.package.x > 0:
+                    self.package.x += self.package.vel # package is going to move vel direction
+                else: 
+                    self.packages.pop(self.packages.index(self.package))
+
             ## octopus movement
             if keys[pg.K_LEFT] and self.player.x > self.player.vel:
                 self.player.x -= self.player.vel
@@ -122,7 +138,6 @@ class Game:
         self.shark3.draw(self.screen)
         self.shark4.draw(self.screen)
         self.shark5.draw(self.screen)
-        pg.display.update() 
 
         ## draw bullets
         for self.bullet in self.bullets:
@@ -137,6 +152,8 @@ class Game:
         if self.player.collectCount == 8:
             text2 = self.font.render('Collected all 8 packages!', 1, green)
             self.screen.blit(text2, (screenWidth/2, screenHeight/2))
+        
+        pg.display.update() 
     
     def show_start_screen(self):
         # game splash/start screen
@@ -167,6 +184,18 @@ class Game:
                 if player.hitbox[0] + player.hitbox[2] > enemy.hitbox[0] and player.hitbox[0] < enemy.hitbox[0] + enemy.hitbox[2]:
                     player.hit(self.screen)
                     self.score -= 5
+      
+    def packageCollision(self, player):
+        if player.hitbox[1] < self.package.hitbox[1] + self.package.hitbox[3] and player.hitbox[1] + player.hitbox[3] > self.package.hitbox[1]:
+            if player.hitbox[0] + player.hitbox[2] > self.package.hitbox[0] and player.hitbox[0] < self.package.hitbox[0] + self.package.hitbox[2]:
+                  player.collect(self.screen)
+                  if player.visible == True:
+                      self.score += 1
+                      print('score: ', score)
+                      self.packages.pop(self.packages.index(self.package))
+
+    
+
 
 
 g = Game()
