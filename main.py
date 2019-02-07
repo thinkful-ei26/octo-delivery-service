@@ -33,12 +33,6 @@ class Game:
         self.run()
         self.music = pg.mixer.music.load('music.mp3')
         pg.mixer.music.play(-1)
-        ## add packages on load, will only reload if package disappears
-        self.packageSize = 40
-        self.pX = random.randint(0, screenWidth - self.packageSize)
-        self.pY = random.randint(0, screenHeight - self.packageSize)
-        if len(self.packages) <= 2:
-            self.packages.append(Package(self.pX, self.pY, self.packageSize, self.packageSize, brown))
 
     def run(self):
         # Game Loop
@@ -107,6 +101,13 @@ class Game:
                     self.package.x += self.package.vel # package is going to move vel direction
                 else: 
                     self.packages.pop(self.packages.index(self.package))
+            
+              ## add packages on load, will only reload if package disappears
+            packageSize = 40
+            pX = random.randint(0, screenWidth - packageSize)
+            pY = random.randint(0, screenHeight - packageSize)
+            if len(self.packages) <= 2:
+                  self.packages.append(Package(pX, pY, packageSize, packageSize, brown))
 
             ## octopus movement
             if keys[pg.K_LEFT] and self.player.x > self.player.vel:
@@ -130,6 +131,7 @@ class Game:
     def draw(self):
         # Game Loop - Draw
         self.screen.fill(blue)
+        self.draw_text(str(self.score), 22, black, 10, 10)
         self.text = self.font.render('Packages: ' + str(self.player.collectCount), 1, black)
         self.screen.blit(self.text, (590, 0))
         self.player.draw(self.screen)
@@ -175,7 +177,7 @@ class Game:
           if self.bullet.x + self.bullet.radius > enemyObj.hitbox[0] and self.bullet.x - self.bullet.radius < enemyObj.hitbox[0] + enemyObj.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
               enemyObj.hit()
               if enemyObj.visible == True:
-                  self.score += 1
+                  self.score += 10
                   self.bullets.pop(self.bullets.index(self.bullet))
     
     def playerCollision(self, player, enemy, score):
@@ -186,17 +188,15 @@ class Game:
                     self.score -= 5
       
     def packageCollision(self, player):
-        if player.hitbox[1] < self.package.hitbox[1] + self.package.hitbox[3] and player.hitbox[1] + player.hitbox[3] > self.package.hitbox[1]:
-            if player.hitbox[0] + player.hitbox[2] > self.package.hitbox[0] and player.hitbox[0] < self.package.hitbox[0] + self.package.hitbox[2]:
-                  player.collect(self.screen)
-                  if player.visible == True:
-                      self.score += 1
-                      print('score: ', score)
+        if self.player.hitbox[1] < self.package.hitbox[1] + self.package.hitbox[3] and self.player.hitbox[1] + self.player.hitbox[3] > self.package.hitbox[1]:
+            if self.player.hitbox[0] + self.player.hitbox[2] > self.package.hitbox[0] and self.player.hitbox[0] < self.package.hitbox[0] + self.package.hitbox[2]:
+                  self.player.collect(self.screen)
+                  if self.player.visible == True:
+                      self.score += 100
+                      print('score: ', self.score)
                       self.packages.pop(self.packages.index(self.package))
 
     
-
-
 
 g = Game()
 g.show_start_screen()
