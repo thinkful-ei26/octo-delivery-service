@@ -1,12 +1,5 @@
 import pygame
-
-blue = (0, 153, 255)
-red = (255, 0, 0)
-black = (0,0,0)
-green = (0, 255, 0)
-brown = (222,184,135)
-screenWidth = 800
-screenHeight = 600
+from settings import *
 
 ## ============== ENEMY ==============
 class enemy(object): 

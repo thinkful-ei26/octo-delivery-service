@@ -4,15 +4,16 @@ from objects.player import player
 from objects.enemy import enemy
 from objects.projectile import projectile
 from objects.package import Package
+from settings import *
 
 # Set up pygame
 pygame.init()
 
-# Set up the window
-screenWidth = 800
-screenHeight = 600
+# # Set up the window
+# screenWidth = 800
+# screenHeight = 600
 windowSurface = pygame.display.set_mode((screenWidth, screenHeight))
-pygame.display.set_caption('OctoGun: Delivery Service')
+pygame.display.set_caption(title)
 
 # load assets
 squidImg = pygame.image.load('assets/squid.png')
@@ -21,13 +22,6 @@ shellImg = pygame.image.load('assets/shell.png')
 # transform assets
 squid = pygame.transform.scale(squidImg, (40, 60) )
 shell = pygame.transform.scale(shellImg, (30, 30))
-
-# Set up colors
-blue = (0, 153, 255)
-red = (255, 0, 0)
-black = (0,0,0)
-green = (0, 255, 0)
-brown = (222,184,135)
 
 # Set up internal game controls
 clock = pygame.time.Clock()
@@ -182,6 +176,7 @@ while True:
         octopus.y += octopus.vel
     
     redrawGameWindow()
+
 
 pygame.quit()
 

@@ -1,6 +1,6 @@
 import pygame
+from settings import *
 
-red = (255, 0, 0)
 ## ============== PROJECTILE ==============
 class projectile(object):
   def __init__(self, x, y, radius, color):

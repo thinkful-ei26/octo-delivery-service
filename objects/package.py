@@ -1,7 +1,5 @@
 import pygame
-
-red = (255, 0, 0)
-brown = (222,184,135)
+from settings import *
 
 ## ============== PACKAGE ==============
 class Package(object):
