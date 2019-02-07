@@ -40,17 +40,19 @@ pygame.mixer.music.play(-1)
 score = 0
 packageCount = 0
 
+'''
 ## Set up packages
 packageSize = 20
 packages = []
 for i in range(8):
     packages.append(pygame.Rect(random.randint(0, screenWidth - packageSize), random.randint(0, screenHeight - packageSize), packageSize, packageSize))
+'''
 
 ## ============== REDRAW GAME WINDOW ============== 
 def redrawGameWindow():
     windowSurface.fill((blue))
-    text = font.render('Score: ' + str(score), 1, black)
-    windowSurface.blit(text, (590, 0))
+    # text = font.render('Score: ' + str(score), 1, black)
+    # windowSurface.blit(text, (590, 0))
     octopus.draw(windowSurface)
     shark.draw(windowSurface)
     shark2.draw(windowSurface)
@@ -64,10 +66,12 @@ def redrawGameWindow():
         # hitSound.play()
         bullet.draw(windowSurface)
 
+    '''
     # Draw 8 packages
     for i in range(8):
         pygame.draw.rect(windowSurface, brown, packages[i])
-        
+    '''
+
     pygame.display.update() 
 
 ## ============== DEFINE GAME OBJECTS ==============
@@ -82,8 +86,10 @@ shark4 = enemy(screenWidth-200, (400 - 60), 60, 40, 800)
 shark5 = enemy(screenWidth-300, (500 - 60), 60, 40, 800)
 inkLoop = 0
 
+'''
 for i in range(8):
     packages.append(pygame.Rect(random.randint(0, screenWidth - packageSize), random.randint(0, screenHeight - packageSize), packageSize, packageSize))
+'''
 
 def enemyCollision(enemyObj, score):
       if bullet.y - bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and bullet.y + bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
@@ -137,13 +143,14 @@ while True:
         else: 
             bullets.pop(bullets.index(bullet)) # pop off the bullet or delete them 
 
+    '''
     ## ============== PACKAGE COLLISION LOGIC ==============
     ## Check whether the player has intersected with any package squares.
     for package in packages[:]:
         if package.colliderect(octopus.hitbox):
             # package.pop(packages.index(package))  ## need to change rect to a sprite 
             print('collided with package: ', package) # ex: <rect(577, 244, 20, 20)> 
-            # https://www.reddit.com/r/pygame/comments/1vhk2o/colliding_sprites_error_pygamerect_object_has_no/
+    '''
 
     ## ============== INTERNAL GAME CONTROLS ==============
     keys = pygame.key.get_pressed()
