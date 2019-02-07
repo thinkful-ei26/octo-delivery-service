@@ -59,7 +59,7 @@ class Game:
             if event.type == pg.QUIT:
                 if self.playing:
                     self.playing = False
-                self.running == False
+                    self.running == False
               
             if keys[pg.K_ESCAPE]:
                 pg.quit()
@@ -158,12 +158,35 @@ class Game:
     
     def show_start_screen(self):
         # game splash/start screen
-        pass
+        self.screen.fill(blue)
+        self.draw_text(title, 48, black, screenWidth/2, screenHeight / 4)
+        self.draw_text("Arrows to move, Space to shoot", 22, black, screenWidth/2, screenHeight / 2)
+        self.draw_text("press a key to play", 22, black, screenWidth /2, screenHeight * 3 / 4)
+        pg.display.flip()
+        self.wait_for_key()
     
     def show_go_screen(self):
         # game over/continue 
-        pass
-    
+        if not self.running:
+            return 
+        self.screen.fill(black)
+        self.draw_text('GAME OVER', 48, blue, screenWidth/2, screenHeight / 4)
+        self.draw_text('Score: ' + str(self.score), 22, blue, screenWidth/2, screenHeight / 2)
+        self.draw_text("press a key to play", 22, blue, screenWidth /2, screenHeight * 3 / 4)
+        pg.display.flip()
+        self.wait_for_key()    
+
+    def wait_for_key(self):
+        waiting = True
+        while waiting:
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.running = False
+                if event.type == pg.KEYUP:
+                    waiting = False
+
     def draw_text(self, text, size, color, x, y):
         font = pg.font.Font(self.font_name, size)
         text_surface = font.render(text, True, color)
@@ -195,7 +218,6 @@ class Game:
                       print('score: ', self.score)
                       self.packages.pop(self.packages.index(self.package))
 
-    
 
 g = Game()
 g.show_start_screen()
