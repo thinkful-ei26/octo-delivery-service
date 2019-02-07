@@ -6,25 +6,25 @@ from objects.projectile import projectile
 from objects.package import Package
 from settings import *
 
-# Set up pygame
-pygame.init()
+# # Set up pygame
+# pygame.init()
 
-# # Set up the window
-# screenWidth = 800
-# screenHeight = 600
-windowSurface = pygame.display.set_mode((screenWidth, screenHeight))
-pygame.display.set_caption(title)
+# # # Set up the window
+# # screenWidth = 800
+# # screenHeight = 600
+# windowSurface = pygame.display.set_mode((screenWidth, screenHeight))
+# pygame.display.set_caption(title)
 
 # load assets
-squidImg = pygame.image.load('assets/squid.png')
-shellImg = pygame.image.load('assets/shell.png')
+# squidImg = pygame.image.load('assets/squid.png')
+# shellImg = pygame.image.load('assets/shell.png')
 
-# transform assets
-squid = pygame.transform.scale(squidImg, (40, 60) )
-shell = pygame.transform.scale(shellImg, (30, 30))
+# # transform assets
+# squid = pygame.transform.scale(squidImg, (40, 60) )
+# shell = pygame.transform.scale(shellImg, (30, 30))
 
-# Set up internal game controls
-clock = pygame.time.Clock()
+# # Set up internal game controls
+# clock = pygame.time.Clock()
 
 #bulletSound = pygame.mixer.Sound('bullet.wav')
 # bulletSound = pygame.mixer.music.load('bullet.mp3')
@@ -99,7 +99,7 @@ def packageCollision(player):
 ## ============== MAIN LOOP ==============
 while True:  
 # Check for events:
-    clock.tick(27) # game clock
+    # clock.tick(27) # game clock
 
     ## ============== OCTOPUS & SHARK COLLISION ==============
     playerCollision(octopus, shark, score)
