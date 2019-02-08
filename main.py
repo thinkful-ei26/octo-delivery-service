@@ -151,9 +151,7 @@ class Game:
         # Game Loop - Draw
         self.screen.fill(blue)
         self.draw_text('Score: ' + str(self.score), 22, black, 40, 10)
-        self.draw_text('Packages: ' + str(self.player.collectCount), 22, black, 590, 10)
-        # self.text = self.font.render('Packages: ' + str(self.player.collectCount), 1, black)
-        # self.screen.blit(self.text, (590, 10))
+        self.draw_text('Packages: ' + str(self.player.collectCount), 22, black, 700, 10)
         self.player.draw(self.screen)
         self.shark.draw(self.screen)
         self.shark2.draw(self.screen)
@@ -169,11 +167,10 @@ class Game:
         for self.package in self.packages:
             self.package.draw(self.screen)
 
-        if self.player.collectCount == 1:
+        ## after getting packages, deliver to correct neighbor
+        if self.player.collectCount >= 1:
             ## add delivery instructions
-            self.text2 = self.font.render('Deliver 8 packages to Squid!', 1, green)
-            self.screen.blit(self.text2, (200, 10))
-
+            self.draw_text('Deliver 8 packages to Squid!', 22, black, screenWidth/2, 10)
             # draw the squid
             self.squid.draw(self.screen)
         

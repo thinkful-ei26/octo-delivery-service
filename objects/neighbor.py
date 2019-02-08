@@ -38,7 +38,7 @@ class Neighbor(object):
               self.y = screenHeight 
 
           ## MOVING HITBOX     
-          self.hitbox = (self.x, self.y, 40, 50 )
+          self.hitbox = (self.x+10, self.y+10, 20, 30 )
           pygame.draw.rect(windowSurface, red, self.hitbox, 2)
 
     def move(self):
