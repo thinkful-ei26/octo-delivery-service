@@ -64,6 +64,20 @@ My environment is already optimized for MacOS and VS Code. Here's how I got star
 - If it returns something like `Python 3.7.0` then you're good. You can update your current version if you like. 
 - Run `which python` to check that the path is something like `/usr/local/bin/python`
 - If you don't have Python installed a.k.a. nothing returned or there was an error when you typed in `Python3 --version` then you can enter `brew install python3`
+- If you are using macOS Mojave, there's a known [bug](https://github.com/pygame/pygame/issues/555) between pygame and Mojave. I recommend **not** installing via `brew install python3` and using this instructions instead:
+
+> https://www.python.org/downloads/release/python-370/
+> for python 3.7.0
+> and install
+> 
+> verify:
+> python3 --version
+> should be 3.7.0
+> 
+> then:
+> `pip3 install pygame` (installed 1.9.4)
+
+Then use the command `python3 file_url` to initiate. Ex: `python3 /Users/trisha/projects/ods/main.py`.
 
 ### Step 2: Optimize environment
 Install extensions on VS Code. This is mainly:
@@ -77,8 +91,7 @@ Install extensions on VS Code. This is mainly:
 - Follow along this awesome free book by **Allen D. Downey** [Think Python: How to Think Like a Computer Scientist](http://greenteapress.com/thinkpython2/html/index.html)
 
 ### Step 4: Open the game
-1. Clone this repo:
-* [OctoGun Repo](https://github.com/thinkful-ei26/octo-delivery-service.git) or `git clone https://github.com/thinkful-ei26/octo-delivery-service.git`
+1. Clone this repo: [OctoGun Repo](https://github.com/thinkful-ei26/octo-delivery-service.git) or `git clone https://github.com/thinkful-ei26/octo-delivery-service.git`
 2. Open a new terminal shell and then `cd` into a directory that you want to clone the repo in
 3. Finally, enter the command `python3 main.py` and you will see a blue window prompting you to press any key. 
 4. Game controls are:
