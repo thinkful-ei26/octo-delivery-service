@@ -54,3 +54,36 @@ You are a gunslinger octopus whose job is to deliver packages. You must successf
 ## Concept Art
 
 <img src="assets/delivery.png" alt="Octopus Delivery Service" width="800px">
+
+## How to get started?
+
+### Step 1: Set-up environment
+My environment is already optimized for MacOS and VS Code. Here's how I got started: 
+
+- Check to see if you have Python already installed via command `Python3 --version`
+- If it returns something like `Python 3.7.0` then you're good. You can update your current version if you like. 
+- Run `which python` to check that the path is something like `/usr/local/bin/python`
+- If you don't have Python installed a.k.a. nothing returned or there was an error when you typed in `Python3 --version` then you can enter `brew install python3`
+
+### Step 2: Optimize environment
+Install extensions on VS Code. This is mainly:
+
+- Python
+- Python Extension (by Don Jayamanne)
+- Code Runner (run a script file via CTRL + ALT + N)
+- Pylinter 
+
+### Step 3: Study Python Fundamentals (Optional)
+- Follow along this awesome free book by **Allen D. Downey** [Think Python: How to Think Like a Computer Scientist](http://greenteapress.com/thinkpython2/html/index.html)
+
+### Step 4: Open the game
+1. Clone this repo:
+* [OctoGun Repo](https://github.com/thinkful-ei26/octo-delivery-service.git) or `git clone https://github.com/thinkful-ei26/octo-delivery-service.git`
+2. Open a new terminal shell and then `cd` into a directory that you want to clone the repo in
+3. Finally, enter the command `python3 main.py` and you will see a blue window prompting you to press any key. 
+4. Game controls are:
+- **Arrow keys** to move
+- **ESC** to quit the game
+- **Spacebar** to shoot
+
+**Note:** I apologize if the graphics look like a 5-year old drew it. I drew most of the assets using MS paint. :joy: I also used [BFXR](https://www.bfxr.net/) for the sound effects. The background music is from an open source website [OrangeFreeSounds](http://www.orangefreesounds.com/category/music/background-music/).
