@@ -14,7 +14,7 @@ class Game:
         pg.display.set_caption(title)
         self.screen = pg.display.set_mode((screenWidth, screenHeight))
         self.clock = pg.time.Clock()
-        self.running = True
+        self.running = True # the game is running on load
         self.font_name = pg.font.match_font(FONT_NAME)
     
     def new(self):
@@ -61,6 +61,10 @@ class Game:
             self.player.y += abs(self.player.vel)
             self.player.hit(self.screen)
             self.whirlpool.play()
+
+        # player dies
+        if self.player.health == 0:
+            self.playing = False
                
     def events(self):
         # Game Loop - Events
@@ -191,7 +195,7 @@ class Game:
     
     def show_go_screen(self):
         # game over/continue 
-        if not self.running:
+        if not self.running: #if running is false, end the fn so that when the user clicks 'x' it just exits the game
             return 
         self.screen.fill(black)
         self.draw_text('GAME OVER', 48, blue, screenWidth/2, screenHeight / 4)
@@ -205,7 +209,7 @@ class Game:
         while waiting:
             self.clock.tick(FPS)
             for event in pg.event.get():
-                if event.type == pg.QUIT:
+                if event.type == pg.QUIT: #user clicks x, waiting for keys 
                     waiting = False
                     self.running = False
                 if event.type == pg.KEYUP:
@@ -250,7 +254,7 @@ class Game:
                 print('touched the squid!', self.player.delivered)
                     
                     
-
+# invoke the Game class
 g = Game()
 g.show_start_screen()
 while g.running:

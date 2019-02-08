@@ -5,12 +5,7 @@ You are a gunslinger octopus whose job is to deliver packages. You must successf
 
 ## To-do List:
 
-## detect collision:
-
-- [] bug on `x` close button & game over screen
-- [] render G.O. screen on player kill
 - [] octo & squid => end game
-- [] randomize squid position & velocity
 - [] fix bug: octo still shooting when not visible 
 - [] deploy as a [Stand Alone App](https://stackoverflow.com/questions/10527678/how-to-send-my-game-made-with-pygame-to-others)
 - [x] render octo & octo moving()
@@ -23,10 +18,14 @@ You are a gunslinger octopus whose job is to deliver packages. You must successf
 - [x] octo health render, decrease when touching shark
 - [x] octo & package collision logic
 - [x] score bug
-- [x]restart & game over screens
+- [x] restart & game over screens
 - [x] add package score when octo collides
 - [x] SFX
 - [x] bug on loading screen
+- [x] octo & squid collision
+- [x] randomize squid position & velocity
+- [x] bug on `x` close button & game over screen, pinpointed to `self.playing` & `self.running` vars
+- [x] render G.O. screen on player kill
 
 ## Proof of Concept:
 - :white_check_mark: Render octopus with game controls
