@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 from settings import *
 
 ## ============== NEIGHBOR ==============
@@ -33,13 +33,14 @@ class Neighbor(object):
           if self.vel > 0: 
               windowSurface.blit(self.swimUp[self.swimCount //3], (self.x, self.y))
 
-          ## neighborloop: if neighbor reaches top of screen (y=0) bring them back to screenHeight (y=600)
+          ## neighborloop: if neighbor reaches top of screen (y=0) bring them back to screenHeight (y=600) and randomized x position
           if self.y <= 0:
-              self.y = screenHeight 
+              self.y = screenHeight
+              self.x = random.randint(0, screenWidth - 60) 
 
           ## MOVING HITBOX     
           self.hitbox = (self.x+10, self.y+10, 20, 30 )
-          pygame.draw.rect(windowSurface, red, self.hitbox, 2)
+          #pygame.draw.rect(windowSurface, red, self.hitbox, 2)
 
     def move(self):
         self.y -= self.vel # decrementing the count moves obj from bottom to top

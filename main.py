@@ -7,14 +7,6 @@ from objects.projectile import Projectile
 from objects.package import Package
 from objects.neighbor import Neighbor
 
-# ## load assets
-# squidImg = pg.image.load('assets/squid.png')
-# shellImg = pg.image.load('assets/shell.png')
-
-# ## transform assets
-# squid = pg.transform.scale(squidImg, (40, 60) )
-# shell = pg.transform.scale(shellImg, (30, 30))
-
 class Game:
     def __init__(self):
         # set up & initialize game
@@ -149,7 +141,7 @@ class Game:
             pY = random.randint(0, screenHeight - packageSize)
             if len(self.packages) <= 2:
                   self.packages.append(Package(pX, pY, packageSize, packageSize, brown))
-
+            
             ## ============== NEIGHBOR COLLISION LOGIC ==============
             self.neighborCollision(self.player, self.squid, self.score)
 
@@ -175,10 +167,15 @@ class Game:
 
         ## after getting packages, deliver to correct neighbor
         if self.player.collectCount >= 1:
-            ## add delivery instructions
-            self.draw_text('Deliver 8 packages to Squid!', 22, black, screenWidth/2, 10)
             # draw the squid
             self.squid.draw(self.screen)
+        
+        self.draw_text(str(self.player.deliveryCount)+ ' successful deliveries', 22, black, screenWidth/2, 10)
+
+        if self.player.collectCount >= 8 and self.player.delivered:
+            self.player.delivered = False
+            self.player.deliveryCount += 1
+            self.player.collectCount -= 8
         
         pg.display.update() 
     
@@ -196,7 +193,6 @@ class Game:
         # game over/continue 
         if not self.running:
             return 
-        # if self.player.health <= 50:
         self.screen.fill(black)
         self.draw_text('GAME OVER', 48, blue, screenWidth/2, screenHeight / 4)
         self.draw_text('Score: ' + str(self.score), 22, blue, screenWidth/2, screenHeight / 2)
@@ -241,25 +237,24 @@ class Game:
     def packageCollision(self, player):
         if self.player.hitbox[1] < self.package.hitbox[1] + self.package.hitbox[3] and self.player.hitbox[1] + self.player.hitbox[3] > self.package.hitbox[1]:
             if self.player.hitbox[0] + self.player.hitbox[2] > self.package.hitbox[0] and self.player.hitbox[0] < self.package.hitbox[0] + self.package.hitbox[2]:
-                  self.player.victory(self.screen)
                   self.pickup.play()
                   if self.player.visible == True:
                       self.score += 100
+                      self.player.collectCount += 1
                       self.packages.pop(self.packages.index(self.package))
 
     def neighborCollision(self, player, neighbor, score):
-        if self.player.collectCount >= 8:
-            if player.hitbox[1] < neighbor.hitbox[1] + neighbor.hitbox[3] and player.hitbox[1] + player.hitbox[3] > neighbor.hitbox[1]:
-                if player.hitbox[0] + player.hitbox[2] > neighbor.hitbox[0] and player.hitbox[0] < neighbor.hitbox[0] + neighbor.hitbox[2]:
-                    player.victory(self.screen)
+        if player.hitbox[1] < neighbor.hitbox[1] + neighbor.hitbox[3] and player.hitbox[1] + player.hitbox[3] > neighbor.hitbox[1]:
+            if player.hitbox[0] + player.hitbox[2] > neighbor.hitbox[0] and player.hitbox[0] < neighbor.hitbox[0] + neighbor.hitbox[2] and self.player.collectCount >= 8:
+                self.player.delivered = True
+                print('touched the squid!', self.player.delivered)
+                    
+                    
 
 g = Game()
 g.show_start_screen()
 while g.running:
     g.new()
-    # print(g.player.health)
-    # if g.player.health == 0:
     g.show_go_screen() #game over screen
-
 
 pg.quit()
