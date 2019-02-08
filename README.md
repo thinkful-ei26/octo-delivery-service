@@ -3,6 +3,31 @@ You are a gunslinger octopus whose job is to deliver packages. You must successf
 
   <img src="assets/screenshot.png" alt="OctoGun Delivery Service Screen Shot" width="800px">
 
+## To-do List:
+
+## detect collision:
+
+- [] bug on `x` close button & game over screen
+- [] render G.O. screen on player kill
+- [] octo & squid => end game
+- [] randomize squid position & velocity
+- [] fix bug: octo still shooting when not visible 
+- [] deploy as a [Stand Alone App](https://stackoverflow.com/questions/10527678/how-to-send-my-game-made-with-pygame-to-others)
+- [x] render octo & octo moving()
+- [x] octo has projectiles
+- [x] add enemy shark: has health bar, is moving correct direction
+- [x] add packages: 1. create package class, 2. render 
+- [x] fix bug on shark collision
+- [x] add more sharks
+- [x] background music
+- [x] octo health render, decrease when touching shark
+- [x] octo & package collision logic
+- [x] score bug
+- [x]restart & game over screens
+- [x] add package score when octo collides
+- [x] SFX
+- [x] bug on loading screen
+
 ## Proof of Concept:
 - :white_check_mark: Render octopus with game controls
 - :white_check_mark: Detect collisions and have feedback in the game

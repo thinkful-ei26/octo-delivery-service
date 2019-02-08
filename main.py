@@ -5,14 +5,15 @@ from objects.player import Player
 from objects.enemy import Enemy
 from objects.projectile import Projectile
 from objects.package import Package
+from objects.neighbor import Neighbor
 
-## load assets
-squidImg = pg.image.load('assets/squid.png')
-shellImg = pg.image.load('assets/shell.png')
+# ## load assets
+# squidImg = pg.image.load('assets/squid.png')
+# shellImg = pg.image.load('assets/shell.png')
 
-## transform assets
-squid = pg.transform.scale(squidImg, (40, 60) )
-shell = pg.transform.scale(shellImg, (30, 30))
+# ## transform assets
+# squid = pg.transform.scale(squidImg, (40, 60) )
+# shell = pg.transform.scale(shellImg, (30, 30))
 
 class Game:
     def __init__(self):
@@ -42,7 +43,13 @@ class Game:
         self.ink = pg.mixer.Sound('inkshoot.wav')
         self.hurt = pg.mixer.Sound('hurt.wav')
         self.pickup = pg.mixer.Sound('pickup.wav')
+        ## randomize squid coord:
+        self.squidSize = 60
+        self.sX = random.randint(0, screenWidth - self.squidSize)
+        self.sY = random.randint(0, screenHeight - self.squidSize)
+        self.squid = Neighbor(self.sX, self.sY, 40, 60, 600) # randomize the squid velocity & position, up & down motion  
         self.run()
+
 
     def run(self):
         # Game Loop
@@ -144,8 +151,9 @@ class Game:
         # Game Loop - Draw
         self.screen.fill(blue)
         self.draw_text('Score: ' + str(self.score), 22, black, 40, 10)
-        self.text = self.font.render('Packages: ' + str(self.player.collectCount), 1, black)
-        self.screen.blit(self.text, (590, 10))
+        self.draw_text('Packages: ' + str(self.player.collectCount), 22, black, 590, 10)
+        # self.text = self.font.render('Packages: ' + str(self.player.collectCount), 1, black)
+        # self.screen.blit(self.text, (590, 10))
         self.player.draw(self.screen)
         self.shark.draw(self.screen)
         self.shark2.draw(self.screen)
@@ -161,10 +169,13 @@ class Game:
         for self.package in self.packages:
             self.package.draw(self.screen)
 
-        if self.player.collectCount == 8:
-            self.text2 = self.font.render('Collected all 8 packages!', 1, green)
-            self.screen.blit(self.text2, (screenWidth/2, screenHeight/2))
-            self.screen.blit(squid, (screenWidth-40, (screenHeight/2 -60), 60, 60)) # randomize the squid velocity & position, up & down motion    
+        if self.player.collectCount == 1:
+            ## add delivery instructions
+            self.text2 = self.font.render('Deliver 8 packages to Squid!', 1, green)
+            self.screen.blit(self.text2, (200, 10))
+
+            # draw the squid
+            self.squid.draw(self.screen)
         
         pg.display.update() 
     
@@ -172,7 +183,8 @@ class Game:
         # game splash/start screen
         self.screen.fill(blue)
         self.draw_text(title, 48, black, screenWidth/2, screenHeight / 4)
-        self.draw_text("Arrows to move, Space to shoot", 22, black, screenWidth/2, screenHeight / 2)
+        self.draw_text('Use arrow keys to move and space to shoot.', 22, black, screenWidth/2, screenHeight / 2)
+        self.draw_text('Collect 8 packages and then deliver to your shy neighbor.', 22, black, screenWidth/2, (screenHeight/2 - 100))
         self.draw_text("press a key to play", 22, black, screenWidth /2, screenHeight * 3 / 4)
         pg.display.flip()
         self.wait_for_key()
@@ -240,5 +252,6 @@ while g.running:
     # print(g.player.health)
     # if g.player.health == 0:
     g.show_go_screen() #game over screen
+
 
 pg.quit()

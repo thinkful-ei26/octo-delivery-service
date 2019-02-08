@@ -6,6 +6,7 @@ from objects.projectile import Projectile
 from objects.package import Package
 from settings import *
 
+
 # Set up pygame
 pygame.init()
 
@@ -179,23 +180,3 @@ while True:
 
 
 pygame.quit()
-
-## detect collision:
-'''
-[] bug on loading screen
-[] next scene => octo & squid => end game
-[] octo still shooting when not visible 
-[DONE] render octo & octo moving()
-[DONE] octo has projectiles
-[DONE] add enemy shark: has health bar, is moving correct direction
-[DONE] add packages: 1. create package class, 2. render 
-[DONE] fix bug on shark collision
-[DONE] add more sharks
-[DONE] background music
-[DONE] octo health render, decrease when touching shark
-[DONE] octo & package collision logic
-[DONE] score bug
-[DONE] restart & game over screens
-[DONE] add package score when octo collides
-[DONE] SFX
-'''
