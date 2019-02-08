@@ -43,13 +43,15 @@ class Game:
         self.ink = pg.mixer.Sound('inkshoot.wav')
         self.hurt = pg.mixer.Sound('hurt.wav')
         self.pickup = pg.mixer.Sound('pickup.wav')
+        self.whirlpool = pg.mixer.Sound('whirlpool.wav')
         ## randomize squid coord:
         self.squidSize = 60
         self.sX = random.randint(0, screenWidth - self.squidSize)
         self.sY = random.randint(0, screenHeight - self.squidSize)
         self.squid = Neighbor(self.sX, self.sY, 40, 60, 600) # randomize the squid velocity & position, up & down motion  
-        self.run()
 
+        # run has to be last on the list
+        self.run()
 
     def run(self):
         # Game Loop
@@ -66,6 +68,7 @@ class Game:
         if self.player.y >= screenHeight - 100:
             self.player.y += abs(self.player.vel)
             self.player.hit(self.screen)
+            self.whirlpool.play()
                
     def events(self):
         # Game Loop - Events
@@ -147,11 +150,14 @@ class Game:
             if len(self.packages) <= 2:
                   self.packages.append(Package(pX, pY, packageSize, packageSize, brown))
 
+            ## ============== NEIGHBOR COLLISION LOGIC ==============
+            self.neighborCollision(self.player, self.squid, self.score)
+
     def draw(self):
         # Game Loop - Draw
         self.screen.fill(blue)
         self.draw_text('Score: ' + str(self.score), 22, black, 40, 10)
-        self.draw_text('Packages: ' + str(self.player.collectCount), 22, black, 700, 10)
+        self.draw_text('Packages: '+ str(self.player.collectCount), 22, black, 700, 10)
         self.player.draw(self.screen)
         self.shark.draw(self.screen)
         self.shark2.draw(self.screen)
@@ -198,7 +204,6 @@ class Game:
         pg.display.flip()
         self.wait_for_key()
       
-
     def wait_for_key(self):
         waiting = True
         while waiting:
@@ -236,11 +241,17 @@ class Game:
     def packageCollision(self, player):
         if self.player.hitbox[1] < self.package.hitbox[1] + self.package.hitbox[3] and self.player.hitbox[1] + self.player.hitbox[3] > self.package.hitbox[1]:
             if self.player.hitbox[0] + self.player.hitbox[2] > self.package.hitbox[0] and self.player.hitbox[0] < self.package.hitbox[0] + self.package.hitbox[2]:
-                  self.player.collect(self.screen)
+                  self.player.victory(self.screen)
                   self.pickup.play()
                   if self.player.visible == True:
                       self.score += 100
                       self.packages.pop(self.packages.index(self.package))
+
+    def neighborCollision(self, player, neighbor, score):
+        if self.player.collectCount >= 8:
+            if player.hitbox[1] < neighbor.hitbox[1] + neighbor.hitbox[3] and player.hitbox[1] + player.hitbox[3] > neighbor.hitbox[1]:
+                if player.hitbox[0] + player.hitbox[2] > neighbor.hitbox[0] and player.hitbox[0] < neighbor.hitbox[0] + neighbor.hitbox[2]:
+                    player.victory(self.screen)
 
 g = Game()
 g.show_start_screen()

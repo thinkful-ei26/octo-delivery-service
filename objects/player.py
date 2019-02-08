@@ -41,13 +41,9 @@ class Player(object):
             windowSurface.blit(text, (250 - (text.get_width()/2),200))
             pygame.display.update()
     
-    def collect(self, windowSurface):
-        if self.collectCount < 8:
-            self.collectCount += 1
-        if self.collectCount == 8: #octo has collected all packages
-            self.delivering = True
-            font2 = pygame.font.SysFont('helvetica', 50)
-            text = font2.render('8 packages collected!', 1, (0,255,0))
-            windowSurface.blit(text, (250 - (text.get_width()/2),200))
-            pygame.display.update()
+    def victory(self, windowSurface):
+        font2 = pygame.font.SysFont('helvetica', 50)
+        text = font2.render('You did it!', 1, (0,0,0))
+        windowSurface.blit(text, (250 - (text.get_width()/2),200))
+        pygame.display.update()
             
