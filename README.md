@@ -1,6 +1,7 @@
 # :octopus: **OctoGun: Delivery Service** :octopus: | 
 You are a gunslinger octopus whose job is to deliver packages. You must successfully navigate the seafloor, evading all sharks and eels to collect and deliver packages to your customers.
 
+**[video demo](https://www.youtube.com/watch?v=Jmx0tXrJHqU)**
   <img src="assets/screenshot.png" alt="OctoGun Delivery Service Screen Shot" width="800px">
 
 ## To-do List:
