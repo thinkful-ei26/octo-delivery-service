@@ -8,8 +8,9 @@ from objects.package import Package
 from objects.neighbor import Neighbor
 
 class Game:
+
+    ## ========= SET UP & INIT GAME =========
     def __init__(self):
-        # set up & initialize game
         pg.init()
         pg.display.set_caption(title)
         self.screen = pg.display.set_mode((screenWidth, screenHeight))
@@ -17,8 +18,8 @@ class Game:
         self.running = True # the game is running on load
         self.font_name = pg.font.match_font(FONT_NAME)
     
+    ## ========= NEW CLASS ASSETS =========
     def new(self):
-        # Start a new game
         self.score = 0
         self.player = Player(0, (screenHeight/2 - 60), 60, 60)
         self.font = pg.font.SysFont('helvetica', 30, True)
@@ -45,8 +46,8 @@ class Game:
         # run has to be last on the list
         self.run()
 
+    ## ========= RUN GAME =========
     def run(self):
-        # Game Loop
         self.playing = True
         while self.playing:
             self.clock.tick(FPS)
@@ -54,8 +55,8 @@ class Game:
             self.update()
             self.draw()
     
+    ## ========= GAME LOOP - UPDATE =========
     def update(self):
-        # Game Loop - Update
         #if player reaches ~3/4 of screen create whirlpool suction down
         if self.player.y >= screenHeight - 100:
             self.player.y += abs(self.player.vel)
@@ -66,6 +67,7 @@ class Game:
         if self.player.health == 0:
             self.playing = False
                
+    ## ========= GAME LOOP - EVENTS =========
     def events(self):
         # Game Loop - Events
         for event in pg.event.get():
@@ -149,6 +151,7 @@ class Game:
             ## ============== NEIGHBOR COLLISION LOGIC ==============
             self.neighborCollision(self.player, self.squid, self.score)
 
+    ## ========= GAME LOOP - DRAW =========
     def draw(self):
         # Game Loop - Draw
         self.screen.fill(blue)
@@ -183,6 +186,7 @@ class Game:
         
         pg.display.update() 
     
+    ## ========= SHOW START SCREEN =========
     def show_start_screen(self):
         # game splash/start screen
         self.screen.fill(blue)
@@ -193,6 +197,7 @@ class Game:
         pg.display.flip()
         self.wait_for_key()
     
+    ## ========= SHOW GAME OVER SCREEN =========
     def show_go_screen(self):
         # game over/continue 
         if not self.running: #if running is false, end the fn so that when the user clicks 'x' it just exits the game
@@ -203,7 +208,8 @@ class Game:
         self.draw_text("press a key to play", 22, blue, screenWidth /2, screenHeight * 3 / 4)
         pg.display.flip()
         self.wait_for_key()
-      
+
+    ## ========= INIT GAME ON KEY PRESS =========  
     def wait_for_key(self):
         waiting = True
         while waiting:
@@ -215,6 +221,7 @@ class Game:
                 if event.type == pg.KEYUP:
                     waiting = False
 
+    ## ========= REUSABLE TEXT =========
     def draw_text(self, text, size, color, x, y):
         font = pg.font.Font(self.font_name, size)
         text_surface = font.render(text, True, color)
@@ -222,6 +229,7 @@ class Game:
         text_rect.midtop = (x, y)
         self.screen.blit(text_surface, text_rect)
 
+    ## ========= PROJECTILE & ENEMY COLLISION =========
     def enemyCollision(self, enemyObj, score):
       if self.bullet.y - self.bullet.radius < enemyObj.hitbox[1] + enemyObj.hitbox[3] and self.bullet.y + self.bullet.radius > enemyObj.hitbox[1]: # phrase 1 checks to see if the bullet is in the bottom of our shark, phrase 2 checks the top
           if self.bullet.x + self.bullet.radius > enemyObj.hitbox[0] and self.bullet.x - self.bullet.radius < enemyObj.hitbox[0] + enemyObj.hitbox[2]: # check if bullet is within left & right x coord of shark hitbox
@@ -230,6 +238,7 @@ class Game:
                   self.score += 10
                   self.bullets.pop(self.bullets.index(self.bullet))
     
+    ## ========= ENEMY & PLAYER COLLISION =========
     def playerCollision(self, player, enemy, score):
         if enemy.visible == True: # octopus no longer sustains damage if enemy is not visible
             if player.hitbox[1] < enemy.hitbox[1] + enemy.hitbox[3] and player.hitbox[1] + player.hitbox[3] > enemy.hitbox[1]:
@@ -237,7 +246,8 @@ class Game:
                     player.hit(self.screen)
                     self.hurt.play()
                     self.score -= 5
-      
+
+    ## ========= PLAYER & PACKAGE COLLISION =========  
     def packageCollision(self, player):
         if self.player.hitbox[1] < self.package.hitbox[1] + self.package.hitbox[3] and self.player.hitbox[1] + self.player.hitbox[3] > self.package.hitbox[1]:
             if self.player.hitbox[0] + self.player.hitbox[2] > self.package.hitbox[0] and self.player.hitbox[0] < self.package.hitbox[0] + self.package.hitbox[2]:
@@ -247,6 +257,7 @@ class Game:
                       self.player.collectCount += 1
                       self.packages.pop(self.packages.index(self.package))
 
+    ## ========= NEIGHBOR (SQUID) & PLAYER COLLISION =========
     def neighborCollision(self, player, neighbor, score):
         if player.hitbox[1] < neighbor.hitbox[1] + neighbor.hitbox[3] and player.hitbox[1] + player.hitbox[3] > neighbor.hitbox[1]:
             if player.hitbox[0] + player.hitbox[2] > neighbor.hitbox[0] and player.hitbox[0] < neighbor.hitbox[0] + neighbor.hitbox[2] and self.player.collectCount >= 8:
@@ -254,7 +265,7 @@ class Game:
                 print('touched the squid!', self.player.delivered)
                     
                     
-# invoke the Game class
+## ========= INVOKE GAME CLASS =========
 g = Game()
 g.show_start_screen()
 while g.running:
