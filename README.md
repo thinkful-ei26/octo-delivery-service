@@ -1,12 +1,11 @@
 # :octopus: **OctoGun: Delivery Service** :octopus: | 
 You are a gunslinger octopus whose job is to deliver packages. You must successfully navigate the seafloor, evading all sharks and eels to collect and deliver packages to your customers.
 
-**[video demo](https://www.youtube.com/watch?v=Jmx0tXrJHqU)**
-  <img src="assets/screenshot.png" alt="OctoGun Delivery Service Screen Shot" width="800px">
+**[YouTube demo](https://www.youtube.com/watch?v=Jmx0tXrJHqU)**
+
+  <img src="assets/screenshot.png" alt="OctoGun Delivery Service Screen Shot" width="600px">
 
 ## To-do List:
-
-- [] close button needs to be pressed twice to exit program, but a player can just press `ESC` key to quit the GUI
 - [x] render octo & octo moving()
 - [x] octo has projectiles
 - [x] add enemy shark: has health bar, is moving correct direction
@@ -106,3 +105,6 @@ Install extensions on VS Code. This is mainly:
 - [] create new stage
 - [] data/high score persistence
 - [] deploy as a [Stand Alone App](https://stackoverflow.com/questions/10527678/how-to-send-my-game-made-with-pygame-to-others)
+
+## Bug :beetle:
+- [] close button needs to be pressed twice to exit program, but a player can just press `ESC` key to quit the GUI
