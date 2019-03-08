@@ -8,7 +8,7 @@ class Projectile(object):
       self.y = y
       self.radius = radius
       self.color = color
-      self.vel = 10
+      self.vel = 30
       self.hitbox = (self.x-8, self.y-5, 15, 15)
 
   def draw(self, windowSurface):

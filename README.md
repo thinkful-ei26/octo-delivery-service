@@ -6,9 +6,7 @@ You are a gunslinger octopus whose job is to deliver packages. You must successf
 
 ## To-do List:
 
-- [] octo & squid => end game
-- [] fix bug: octo still shooting when not visible 
-- [] deploy as a [Stand Alone App](https://stackoverflow.com/questions/10527678/how-to-send-my-game-made-with-pygame-to-others)
+- [] close button needs to be pressed twice to exit program, but a player can just press `ESC` key to quit the GUI
 - [x] render octo & octo moving()
 - [x] octo has projectiles
 - [x] add enemy shark: has health bar, is moving correct direction
@@ -27,6 +25,7 @@ You are a gunslinger octopus whose job is to deliver packages. You must successf
 - [x] randomize squid position & velocity
 - [x] bug on `x` close button & game over screen, pinpointed to `self.playing` & `self.running` vars
 - [x] render G.O. screen on player kill
+- [x] fix bug: octo still shooting when not visible 
 
 ## Proof of Concept:
 - :white_check_mark: Render octopus with game controls
@@ -101,3 +100,9 @@ Install extensions on VS Code. This is mainly:
 - **Spacebar** to shoot
 
 **Note:** I apologize if the graphics look like a 5-year old drew it. I drew most of the assets using MS paint. :joy: I also used [BFXR](https://www.bfxr.net/) for the sound effects. The background music is from an open source website [OrangeFreeSounds](http://www.orangefreesounds.com/category/music/background-music/).
+
+
+## Version 2
+- [] create new stage
+- [] data/high score persistence
+- [] deploy as a [Stand Alone App](https://stackoverflow.com/questions/10527678/how-to-send-my-game-made-with-pygame-to-others)

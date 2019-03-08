@@ -69,7 +69,6 @@ class Game:
                
     ## ========= GAME LOOP - EVENTS =========
     def events(self):
-        # Game Loop - Events
         for event in pg.event.get():
             keys = pg.key.get_pressed()
 
@@ -153,20 +152,22 @@ class Game:
 
     ## ========= GAME LOOP - DRAW =========
     def draw(self):
-        # Game Loop - Draw
+        ## text
         self.screen.fill(blue)
         self.draw_text('Score: ' + str(self.score), 22, black, 40, 10)
         self.draw_text('Packages: '+ str(self.player.collectCount), 22, black, 700, 10)
         self.player.draw(self.screen)
+
+        ## draw bullets
+        for self.bullet in self.bullets:
+            self.bullet.draw(self.screen)
+
+        ## draw enemies
         self.shark.draw(self.screen)
         self.shark2.draw(self.screen)
         self.shark3.draw(self.screen)
         self.shark4.draw(self.screen)
         self.shark5.draw(self.screen)
-
-        ## draw bullets
-        for self.bullet in self.bullets:
-            self.bullet.draw(self.screen)
 
         ## draw packages
         for self.package in self.packages:
@@ -188,7 +189,6 @@ class Game:
     
     ## ========= SHOW START SCREEN =========
     def show_start_screen(self):
-        # game splash/start screen
         self.screen.fill(blue)
         self.draw_text(title, 48, black, screenWidth/2, screenHeight / 4)
         self.draw_text('Use arrow keys to move and space to shoot.', 22, black, screenWidth/2, screenHeight / 2)
@@ -197,15 +197,14 @@ class Game:
         pg.display.flip()
         self.wait_for_key()
     
-    ## ========= SHOW GAME OVER SCREEN =========
+    ## ========= SHOW GAME OVER / CONTINUE SCREEN =========
     def show_go_screen(self):
-        # game over/continue 
         if not self.running: #if running is false, end the fn so that when the user clicks 'x' it just exits the game
             return 
         self.screen.fill(black)
         self.draw_text('GAME OVER', 48, blue, screenWidth/2, screenHeight / 4)
         self.draw_text('Score: ' + str(self.score), 22, blue, screenWidth/2, screenHeight / 2)
-        self.draw_text("press a key to play", 22, blue, screenWidth /2, screenHeight * 3 / 4)
+        self.draw_text("Press a key to play. Shoot sharks and collect 8 packages to deliver to your shy neighbor.", 22, blue, screenWidth /2, screenHeight * 3 / 4)
         pg.display.flip()
         self.wait_for_key()
 
