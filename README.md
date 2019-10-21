@@ -92,6 +92,7 @@ Install extensions on VS Code. This is mainly:
 ### Step 4: Open the game
 1. Clone this repo: [OctoGun Repo](https://github.com/thinkful-ei26/octo-delivery-service.git) or `git clone https://github.com/thinkful-ei26/octo-delivery-service.git`
 2. Open a new terminal shell and then `cd` into a directory that you want to clone the repo in
+3. Install pygame `python3 -m pip3 install -U pygame --user`
 3. Finally, enter the command `python3 main.py` and you will see a blue window prompting you to press any key. 
 4. Game controls are:
 - **Arrow keys** to move
